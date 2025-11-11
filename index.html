@@ -60,11 +60,11 @@
                         "background-dark": "#101622",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "Inter", "sans-serif"] 
+                        "display": ["Manrope", "Inter", "sans-serif"]
                     },
                     borderRadius: {
                         "DEFAULT": "0.5rem",
-                        "lg": "1rem", 
+                        "lg": "1rem",
                         "xl": "1.5rem",
                         "full": "9999px"
                     },
@@ -79,7 +79,6 @@
         <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
         <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
     </div>
-
     <div class="layout-container flex h-full grow flex-col z-10">
         <div id="app-header-container" class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md">
             <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#222f49] px-4 sm:px-10 py-3">
@@ -106,7 +105,6 @@
                 </button>
             </header>
         </div>
-
         <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
             <div class="layout-content-container flex flex-col w-full max-w-6xl flex-1">
                 <main class="flex-1 flex flex-col items-center py-10 sm:py-16" id="app-main-content">
@@ -115,12 +113,10 @@
         </div>
     </div>
 </div>
-
 <button class="fixed bottom-8 right-8 flex items-center gap-3 px-6 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-primary/90 transition-colors hidden" id="ask-ai-button">
     <span class="material-symbols-outlined">smart_toy</span>
     Ask AI Why?
 </button>
-
 <script>
     // ---------------------------------------------------
     // Global State & Data
@@ -128,7 +124,7 @@
     let jobFileUploaded = false;
     let candidateAFileUploaded = false;
     let candidateBFileUploaded = false;
-    
+   
     // --- Simulated User Data for Profile Page ---
     const USER_PROFILE_DATA = {
         name: "John Doe",
@@ -137,9 +133,9 @@
         email: "j.doe@example.com",
         avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa" // Default avatar used in header
     };
-    
+   
     // Mock Data (Assuming they are defined elsewhere or simplified for this context)
-    const CANDIDATE_A_DATA = { 
+    const CANDIDATE_A_DATA = {
         name: "Liam Carter",
         title: "Senior Frontend Developer",
         match: 92,
@@ -148,7 +144,7 @@
         missingSkills: ["AWS"],
         avatar: "https://i.pravatar.cc/150?img=68"
     };
-    const CANDIDATE_B_DATA = { 
+    const CANDIDATE_B_DATA = {
         name: "Olivia Chen",
         title: "Full Stack Engineer",
         match: 78,
@@ -164,19 +160,16 @@
         { candidates: "Fiona G. vs George H.", time: "1 week ago" },
     ];
     const CANDIDATES_DATA = []; // Placeholder for full candidates list
-    
+   
     // ... (Your other global data here) ...
-
     // ---------------------------------------------------
     // Core UI Components and Listeners
     // ---------------------------------------------------
-
     function getSkillTag(skill, isMissing = false) {
         const bgColor = isMissing ? 'bg-orange-500/20' : 'bg-primary/20';
         const textColor = isMissing ? 'text-orange-400' : 'text-primary';
         return `<span class="px-3 py-1 text-sm font-medium ${bgColor} ${textColor} rounded-full">${skill}</span>`;
     }
-
     function setActiveLink(page) {
         document.querySelectorAll('.nav-link').forEach(link => {
             // Check if the link corresponds to the current page
@@ -188,7 +181,7 @@
                 link.classList.add('text-white/80', 'font-medium');
             }
         });
-        
+       
         // Custom styling for profile button (it's not a standard nav-link)
         const profileBtn = document.getElementById('profile-btn');
         if (profileBtn) {
@@ -200,7 +193,7 @@
                 profileBtn.classList.add('border-primary/50');
              }
         }
-        
+       
         // Custom styling for profile sidebar links
         document.querySelectorAll('.profile-nav-link').forEach(link => {
             link.classList.remove('profile-nav-active');
@@ -211,29 +204,26 @@
             }
         });
     }
-
     function attachHeaderButtonListeners() {
         const notificationsBtn = document.getElementById('notifications-btn');
         const settingsBtn = document.getElementById('settings-btn');
         const profileBtn = document.getElementById('profile-btn');
         const filterBtn = document.getElementById('filter-btn');
         const newSearchBtn = document.getElementById('new-search-btn');
-
         if (notificationsBtn) notificationsBtn.addEventListener('click', () => alert('Notifications clicked!'));
         if (settingsBtn) settingsBtn.addEventListener('click', () => {
             // Navigate to the settings page within the profile section
-            window.location.hash = '#settings'; 
+            window.location.hash = '#settings';
         });
-        
+       
         // Update profile button to navigate to the profile page
         if (profileBtn) profileBtn.addEventListener('click', () => {
             window.location.hash = '#profile';
         });
-        
+       
         if (filterBtn) filterBtn.addEventListener('click', () => alert('Filter Candidates clicked!'));
         if (newSearchBtn) newSearchBtn.addEventListener('click', () => alert('New Candidate Search clicked!'));
     }
-
     function renderHeaderButtons(currentPage) {
         let buttonsHtml = `
             <button id="notifications-btn" class="relative flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
@@ -244,7 +234,6 @@
             </button>
             <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer transition-all" data-alt="User avatar image" style='background-image: url("${USER_PROFILE_DATA.avatar}");'></div>
         `;
-
         if (currentPage === 'candidates') {
             const candidateButtons = `
                 <button id="filter-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
@@ -255,37 +244,33 @@
                 </button>
             `;
             // Add Candidate buttons before the standard buttons
-            buttonsHtml = candidateButtons + buttonsHtml; 
+            buttonsHtml = candidateButtons + buttonsHtml;
         }
-
         const container = document.getElementById('header-buttons-container');
         if (container) {
             container.innerHTML = buttonsHtml;
             attachHeaderButtonListeners();
         }
     }
-
-
     // ---------------------------------------------------
     // Upload Functionality (Mocked)
     // ---------------------------------------------------
-    
-    function updateCompareButtonState() { 
+   
+    function updateCompareButtonState() {
         const compareBtn = document.getElementById('home-compare-button');
         if (compareBtn) {
             compareBtn.disabled = !(jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded);
         }
     }
-    
-    function handleFileSelect(file, nameElementId, buttonTextId, fileType) { 
+   
+    function handleFileSelect(file, nameElementId, buttonTextId, fileType) {
         const fileNameElement = document.getElementById(nameElementId);
         const buttonTextElement = document.getElementById(buttonTextId);
-
         if (file) {
             const fileName = file.name;
             fileNameElement.textContent = fileName;
             buttonTextElement.textContent = 'Change File';
-            
+           
             // Update global state
             if (fileType === 'job') jobFileUploaded = true;
             if (fileType === 'candidateA') candidateAFileUploaded = true;
@@ -293,7 +278,6 @@
         } else {
             fileNameElement.textContent = fileType === 'job' ? 'Job Description' : (fileType === 'candidateA' ? 'Candidate A Profile' : 'Candidate B Profile');
             buttonTextElement.textContent = 'Upload File';
-
             // Update global state
             if (fileType === 'job') jobFileUploaded = false;
             if (fileType === 'candidateA') candidateAFileUploaded = false;
@@ -301,24 +285,22 @@
         }
         updateCompareButtonState();
     }
-    
-    function setupUploadListener(uploadContainerId, inputId, nameId, buttonTextId, fileType) { 
+   
+    function setupUploadListener(uploadContainerId, inputId, nameId, buttonTextId, fileType) {
         const input = document.getElementById(inputId);
         const button = document.querySelector(`#${uploadContainerId} button`);
-        
+       
         button.addEventListener('click', () => {
             input.click();
         });
-
         input.addEventListener('change', (e) => {
             handleFileSelect(e.target.files[0], nameId, buttonTextId, fileType);
         });
     }
-    
-    function setupDragAndDropListener(containerId, inputId, nameId, buttonTextId, fileType) { 
+   
+    function setupDragAndDropListener(containerId, inputId, nameId, buttonTextId, fileType) {
         const container = document.getElementById(containerId);
         const input = document.getElementById(inputId);
-
         container.addEventListener('dragover', (e) => {
             e.preventDefault();
             container.classList.add('is-drag-over');
@@ -333,16 +315,14 @@
             if (file) {
                 // Simulate setting the file on the input element
                 // Note: The actual file upload/read logic is much more complex
-                handleFileSelect(file, nameId, buttonTextId, fileType); 
+                handleFileSelect(file, nameId, buttonTextId, fileType);
             }
         });
     }
-
-
     // ---------------------------------------------------
     // Dynamic Page Rendering Functions
     // ---------------------------------------------------
-    
+   
     function renderCandidateCard(candidate) {
         return `
             <div class="lg:col-span-5 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
@@ -353,7 +333,6 @@
                         <p class="text-[#90a4cb]">${candidate.title}</p>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-4 mb-6">
                     <div>
                         <p class="text-[#90a4cb] text-sm">Match Score</p>
@@ -364,12 +343,10 @@
                         <p class="text-xl font-bold text-white">${candidate.experience}</p>
                     </div>
                 </div>
-
                 <h4 class="text-white font-bold mb-3">Key Skills</h4>
                 <div class="flex flex-wrap gap-2 mb-6">
                     ${candidate.skills.map(s => getSkillTag(s, false)).join('')}
                 </div>
-
                 <h4 class="text-white font-bold mb-3">Missing/Weak Skills</h4>
                 <div class="flex flex-wrap gap-2">
                     ${candidate.missingSkills.map(s => getSkillTag(s, true)).join('')}
@@ -377,7 +354,6 @@
             </div>
         `;
     }
-
     function renderComparePage() {
         let comparisonContent;
         if (jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded) {
@@ -388,7 +364,6 @@
                     </button>
                 </div>
             `;
-
             const summaryAndSuggestions = `
                 <div class="lg:col-span-12 mt-8 flex flex-col lg:flex-row gap-8">
                     <div class="flex-1 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
@@ -413,7 +388,6 @@
                     </div>
                 </div>
             `;
-
             const recentDecisions = `
                 <div class="mt-16 w-full">
                     <h2 class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] p-4">Recent AI Decisions</h2>
@@ -432,7 +406,6 @@
                     </div>
                 </div>
             `;
-
             comparisonContent = `
                 <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full px-4 sm:px-10 md:px-20 lg:px-0">
                     ${renderCandidateCard(CANDIDATE_A_DATA)}
@@ -442,7 +415,6 @@
                 </div>
                 ${recentDecisions}
             `;
-
         } else {
             comparisonContent = `
                 <div class="w-full text-center mt-20">
@@ -452,7 +424,6 @@
                 </div>
             `;
         }
-
         return `
             <div class="w-full flex flex-wrap justify-between gap-3 p-4">
                 <div class="flex min-w-72 flex-col gap-3">
@@ -463,7 +434,6 @@
             ${comparisonContent}
         `;
     }
-
     function renderCandidatesPage() {
         return `
             <div class="w-full text-center mt-20">
@@ -475,7 +445,6 @@
             </div>
         `;
     }
-
     function renderDashboardPage() {
         return `
             <div class="w-full text-center mt-20">
@@ -493,7 +462,6 @@
                         <span id="job-button-text">Upload File</span>
                     </button>
                 </div>
-
                 <div id="upload-candidate-a" class="glassmorphism flex flex-col items-center p-6 border-dashed border-2 border-[#314368] rounded-xl min-h-64 transition-all duration-300">
                     <span class="material-symbols-outlined text-primary text-5xl mt-4">person</span>
                     <h3 class="text-white text-lg font-bold mt-4 line-clamp-1" id="candidate-a-file-name">Candidate A Profile</h3>
@@ -504,7 +472,6 @@
                         <span id="candidate-a-button-text">Upload File</span>
                     </button>
                 </div>
-
                 <div id="upload-candidate-b" class="glassmorphism flex flex-col items-center p-6 border-dashed border-2 border-[#314368] rounded-xl min-h-64 transition-all duration-300">
                     <span class="material-symbols-outlined text-primary text-5xl mt-4">person</span>
                     <h3 class="text-white text-lg font-bold mt-4 line-clamp-1" id="candidate-b-file-name">Candidate B Profile</h3>
@@ -516,13 +483,13 @@
                     </button>
                 </div>
             </div>
-            
+           
             <button id="home-compare-button" class="mt-12 px-12 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" disabled>
                 Compare Candidates
             </button>
         `;
     }
-    
+   
     function renderJobsPage() {
         return `
             <div class="w-full text-center mt-20">
@@ -532,13 +499,11 @@
             </div>
         `;
     }
-
     // --- NEW PROFILE PAGE RENDER FUNCTION ---
     function renderProfilePage(subPage) {
         let mainContent = '';
         let title = '';
         let subtitle = '';
-
         switch (subPage) {
             case 'security':
                 title = 'Security';
@@ -563,7 +528,6 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="pt-6 border-t border-[#222f49]">
                             <h2 class="text-white text-xl font-bold mb-4">Two-Factor Authentication (2FA)</h2>
                             <div class="flex items-center justify-between p-4 bg-[#222f49] rounded-lg">
@@ -597,7 +561,6 @@
                                 </label>
                             </div>
                         </div>
-
                         <div class="pt-6 border-t border-[#222f49]">
                             <h2 class="text-white text-xl font-bold mb-4">Integrations</h2>
                             <div class="flex items-center justify-between p-4 bg-[#222f49] rounded-lg">
@@ -631,7 +594,7 @@
                                 Upload new picture
                             </button>
                         </div>
-                        
+                       
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label for="full-name" class="block text-[#90a4cb] text-sm font-medium mb-2">Full Name</label>
@@ -650,7 +613,6 @@
                                 <input type="email" id="email" value="${USER_PROFILE_DATA.email}" class="profile-input" disabled>
                             </div>
                         </div>
-
                         <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-[#222f49]">
                             <button class="px-6 py-3 text-[#90a4cb] font-bold rounded-xl hover:text-white transition-colors" onclick="alert('Cancelled changes.')">
                                 Cancel
@@ -662,7 +624,6 @@
                     </div>
                 `;
         }
-
         return `
             <div class="w-full flex">
                 <div class="w-64 mr-10 hidden md:block shrink-0">
@@ -671,7 +632,7 @@
                         <p class="text-white text-lg font-bold">${USER_PROFILE_DATA.name}</p>
                         <p class="text-[#90a4cb] text-sm">${USER_PROFILE_DATA.title}</p>
                     </div>
-                    
+                   
                     <nav class="space-y-1">
                         <a href="#profile" data-page="profile" class="profile-nav-link flex items-center gap-3 p-3 rounded-lg transition-colors">
                             <span class="material-symbols-outlined">person</span>
@@ -686,7 +647,7 @@
                             Settings
                         </a>
                     </nav>
-                    
+                   
                     <div class="mt-16 pt-4 border-t border-[#222f49]">
                         <button class="flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-red-400/20 w-full font-medium transition-colors" onclick="alert('Logging out...')">
                             <span class="material-symbols-outlined">logout</span>
@@ -694,7 +655,6 @@
                         </button>
                     </div>
                 </div>
-
                 <div class="flex-1 min-w-0">
                     <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">${title}</h1>
                     <p class="text-[#90a4cb] text-lg font-normal leading-normal mt-2 mb-8">${subtitle}</p>
@@ -703,29 +663,23 @@
             </div>
         `;
     }
-
     // ---------------------------------------------------
     // Routing Logic
     // ---------------------------------------------------
-
     function handleRouting() {
         const hash = window.location.hash.replace('#', '');
         const page = hash.split('?')[0] || 'dashboard'; // Default to dashboard if no hash is present, ignoring query params
         const mainContent = document.getElementById('app-main-content');
         const askAiButton = document.getElementById('ask-ai-button');
         let pageContent = '';
-
         if (askAiButton) askAiButton.classList.add('hidden');
-
         // Render header buttons for the current page
         renderHeaderButtons(page);
         // Set active link in the header and profile sidebar
         setActiveLink(page);
-        
+       
         // Clear previous content to allow re-rendering listeners
         mainContent.innerHTML = '';
-
-
         switch (page) {
             case 'dashboard':
             case 'home':
@@ -767,14 +721,28 @@
                 pageContent = renderDashboardPage();
                 break;
         }
-
         // Insert the content into the main container
         mainContent.innerHTML = pageContent;
     }
-    
+   
     // Initial routing setup
     window.addEventListener('hashchange', handleRouting);
     window.addEventListener('load', handleRouting);
+</script>
+<!-- ✅ Botpress Loader -->
+<script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js" defer></script>
+<!-- ✅ YOUR Bot's unique config file -->
+<script src="https://files.bpcontent.cloud/2025/11/11/05/20251111050727-H32176KB.js" defer></script>
+<!-- ✅ Ask AI Button → Open Chatbot -->
+<script>
+setTimeout(() => {
+    const askBtn = document.getElementById("ask-ai-button");
+    if (askBtn) {
+        askBtn.addEventListener("click", () => {
+            window.botpressWebChat.sendEvent({ type: "show" });
+        });
+    }
+}, 1200); // wait for botpress to load fully
 </script>
 </body>
 </html>
