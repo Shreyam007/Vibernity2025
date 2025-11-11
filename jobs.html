@@ -4,29 +4,13 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Recruitment Assistant - Jobs</title>
+
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
-    <style>
-        .glassmorphism {
-            background: rgba(34, 47, 73, 0.4); /* bg-[#222f49]/40 */
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(49, 67, 104, 0.5); /* border-[#314368]/50 */
-        }
-        /* Custom scrollbar for better dark mode aesthetics */
-        body::-webkit-scrollbar {
-            width: 8px;
-        }
-        body::-webkit-scrollbar-thumb {
-            background-color: #314368;
-            border-radius: 4px;
-        }
-        body::-webkit-scrollbar-track {
-            background-color: #1A2233;
-        }
-    </style>
+
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -34,248 +18,180 @@
                 extend: {
                     colors: {
                         "primary": "#0d59f2",
-                        "background-dark": "#101622",
+                        "background-dark": "#0e1522",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "Inter", "sans-serif"] 
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.5rem",
-                        "lg": "1rem", 
-                        "xl": "1.5rem",
-                        "full": "9999px"
-                    },
-                },
-            },
+                        display: ["Manrope", "Inter", "sans-serif"]
+                    }
+                }
+            }
         }
     </script>
-</head>
-<body class="bg-background-dark font-display text-white">
-<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
-    <div class="absolute top-0 left-0 w-full h-full z-0 overflow-hidden">
-        <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
-    </div>
 
-    <div class="layout-container flex h-full grow flex-col z-10">
-        <div id="app-header-container" class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md">
-            <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#222f49] px-4 sm:px-10 py-3">
-                <div class="flex items-center gap-4 text-white">
-                    <div class="size-6 text-primary">
-                        <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
-                        </svg>
-                    </div>
-                    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em]">Recruitment Assistant</h2>
-                </div>
-                <div class="hidden md:flex flex-1 justify-end items-center gap-8">
-                    <div class="flex items-center gap-6"> 
-                        <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#dashboard" data-page="dashboard">Dashboard</a>
-                        <a class="nav-link text-primary text-sm font-bold leading-normal" href="#jobs" data-page="jobs">Jobs</a>
-                        <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#candidates" data-page="candidates">Candidates</a>
-                        <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#compare" data-page="compare">Compare</a>
-                    </div>
-                    <div class="flex items-center gap-2" id="header-buttons-container"> 
-                        <button id="notifications-btn" class="relative flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                            <span class="material-symbols-outlined">notifications</span>
-                            <span class="absolute top-0 right-0 -mt-1 -mr-1 size-4 flex items-center justify-center rounded-full bg-red-500 text-xs text-white">1</span>
-                        </button>
-                        <button id="settings-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                            <span class="material-symbols-outlined">settings</span>
-                        </button>
-                        <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa");'></div>
-                    </div>
-                </div>
-                <button class="md:hidden flex items-center justify-center rounded-lg h-10 w-10 bg-[#222f49] text-white">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-            </header>
+    <style>
+        body::-webkit-scrollbar { width: 8px; }
+        body::-webkit-scrollbar-thumb { background-color: #314368; border-radius: 4px; }
+        body::-webkit-scrollbar-track { background-color: #1A2233; }
+    </style>
+</head>
+
+<body class="bg-background-dark font-display text-white">
+
+<header class="flex items-center justify-between border-b border-[#222f49] px-6 py-4 bg-background-dark/80 backdrop-blur-xl sticky top-0 z-50">
+
+    <div class="flex items-center gap-10">
+
+        <div class="flex items-center gap-3">
+            <div class="size-7 text-primary">
+                <svg fill="none" viewBox="0 0 48 48">
+                    <path d="M24 45.8C19.6 45.8 15.4 44.5 11.9 42.1C8.3 39.7 5.5 36.3 3.8 32.3C2.2 28.3 1.8 24 2.6 19.7C3.4 15.5 5.5 11.6 8.6 8.6C11.6 5.5 15.5 3.4 19.7 2.6C24 1.8 28.3 2.2 32.3 3.9C36.3 5.5 39.7 8.3 42.1 11.9C44.5 15.4 45.8 19.6 45.8 24H24V45.8Z" fill="currentColor"/>
+                </svg>
+            </div>
+            <h2 class="text-white text-lg font-bold">Recruitment Assistant</h2>
         </div>
 
-        <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
-            <div class="layout-content-container flex flex-col w-full max-w-6xl flex-1">
-                <main class="flex-1 flex flex-col items-center py-10 sm:py-16" id="app-main-content">
-                    <div class="w-full">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
-                            <div>
-                                <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Job Postings</h1>
-                                <p class="text-[#90a4cb] text-lg font-normal leading-normal mt-2">Manage and analyze your current job openings.</p>
-                            </div>
-                            <button class="flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-primary/90 transition-colors">
-                                <span class="material-symbols-outlined">add</span>
-                                Add New Job
-                            </button>
-                        </div>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="index.html#dashboard" class="nav-link text-white/80 hover:text-white">Dashboard</a>
+            <a href="jobs.html" class="nav-link text-primary font-bold">Jobs</a>
+            <a href="index.html#candidates" class="nav-link text-white/80 hover:text-white">Candidates</a>
+            <a href="index.html#compare" class="nav-link text-white/80 hover:text-white">Compare</a>
+        </nav>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-                            <div class="lg:col-span-1 md:col-span-2 relative">
-                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/60">search</span>
-                                <input type="text" placeholder="Search by title or skill..." class="w-full pl-12 pr-4 py-3 rounded-lg bg-[#222f49] border border-[#314368] text-white placeholder-white/50 focus:border-primary focus:ring-primary focus:outline-none" onkeyup="filterJobs()">
-                            </div>
-                            <div class="lg:col-span-1">
-                                <select class="w-full px-4 py-3 rounded-lg bg-[#222f49] border border-[#314368] text-white focus:border-primary focus:ring-primary focus:outline-none" onchange="filterJobs()">
-                                    <option value="">All Locations</option>
-                                    <option value="San Francisco, CA">San Francisco, CA</option>
-                                    <option value="Remote">Remote</option>
-                                    <option value="New York, NY">New York, NY</option>
-                                </select>
-                            </div>
-                            <div class="lg:col-span-1">
-                                <select class="w-full px-4 py-3 rounded-lg bg-[#222f49] border border-[#314368] text-white focus:border-primary focus:ring-primary focus:outline-none" onchange="filterJobs()">
-                                    <option value="">All Departments</option>
-                                    <option value="Engineering">Engineering</option>
-                                    <option value="Product">Product</option>
-                                    <option value="Design">Design</option>
-                                </select>
-                            </div>
-                            <div class="lg:col-span-1">
-                                <select class="w-full px-4 py-3 rounded-lg bg-[#222f49] border border-[#314368] text-white focus:border-primary focus:ring-primary focus:outline-none" onchange="filterJobs()">
-                                    <option value="">All Statuses</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Paused">Paused</option>
-                                    <option value="Closed">Closed</option>
-                                </select>
-                            </div>
-                        </div>
+    </div>
 
-                        <div id="job-list" class="flex flex-col gap-4">
-                            <div class="bg-[#1A2233] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-[#222f49] hover:border-primary/50 transition-colors cursor-pointer">
-                                <div class="flex-1">
-                                    <h3 class="text-white text-xl font-bold">Senior Frontend Engineer</h3>
-                                    <div class="flex items-center flex-wrap gap-x-4 gap-y-2 text-[#90a4cb] text-sm mt-2">
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> San Francisco, CA</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">work</span> Engineering</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0">
-                                    <div class="text-right">
-                                        <p class="text-primary text-xl font-bold">24</p>
-                                        <p class="text-[#90a4cb] text-sm">Candidates</p>
-                                    </div>
-                                    <span class="px-3 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full">Active</span>
-                                </div>
-                            </div>
+    <div class="flex items-center gap-5">
 
-                            <div class="bg-[#1A2233] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-[#222f49] hover:border-primary/50 transition-colors cursor-pointer">
-                                <div class="flex-1">
-                                    <h3 class="text-white text-xl font-bold">Product Manager, AI Platform</h3>
-                                    <div class="flex items-center flex-wrap gap-x-4 gap-y-2 text-[#90a4cb] text-sm mt-2">
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">language</span> Remote</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">folder_open</span> Product</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0">
-                                    <div class="text-right">
-                                        <p class="text-primary text-xl font-bold">12</p>
-                                        <p class="text-[#90a4cb] text-sm">Candidates</p>
-                                    </div>
-                                    <span class="px-3 py-1 text-xs font-medium bg-green-500/20 text-green-400 rounded-full">Active</span>
-                                </div>
-                            </div>
+        <button class="relative size-10 rounded-full bg-[#1e2a3f] hover:bg-primary/30 flex items-center justify-center text-white/80 hover:text-white transition">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="absolute w-4 h-4 -top-1 -right-1 bg-red-500 text-[10px] text-white rounded-full flex items-center justify-center">1</span>
+        </button>
 
-                            <div class="bg-[#1A2233] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-[#222f49] hover:border-primary/50 transition-colors cursor-pointer">
-                                <div class="flex-1">
-                                    <h3 class="text-white text-xl font-bold">UX/UI Designer</h3>
-                                    <div class="flex items-center flex-wrap gap-x-4 gap-y-2 text-[#90a4cb] text-sm mt-2">
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> New York, NY</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">palette</span> Design</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">layers</span> Contract</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0">
-                                    <div class="text-right">
-                                        <p class="text-primary text-xl font-bold">3</p>
-                                        <p class="text-[#90a4cb] text-sm">Candidates</p>
-                                    </div>
-                                    <span class="px-3 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full">Paused</span>
-                                </div>
-                            </div>
+        <button class="size-10 rounded-full bg-[#1e2a3f] hover:bg-primary/30 flex items-center justify-center text-white/80 hover:text-white transition">
+            <span class="material-symbols-outlined">settings</span>
+        </button>
 
-                            <div class="bg-[#1A2233] rounded-xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border border-[#222f49] hover:border-primary/50 transition-colors cursor-pointer">
-                                <div class="flex-1">
-                                    <h3 class="text-white text-xl font-bold">DevOps Engineer</h3>
-                                    <div class="flex items-center flex-wrap gap-x-4 gap-y-2 text-[#90a4cb] text-sm mt-2">
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">language</span> Remote</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">work</span> Engineering</span>
-                                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 shrink-0">
-                                    <div class="text-right">
-                                        <p class="text-primary text-xl font-bold">38</p>
-                                        <p class="text-[#90a4cb] text-sm">Candidates</p>
-                                    </div>
-                                    <span class="px-3 py-1 text-xs font-medium bg-red-500/20 text-red-400 rounded-full">Closed</span>
-                                </div>
-                            </div>
-                        </div>
+        <a href="profile.html" class="size-10 rounded-full bg-cover bg-center border-2 border-primary/50 cursor-pointer"
+            style='background-image:url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa");'>
+        </a>
+    </div>
 
-                        <div class="flex items-center justify-between mt-12">
-                            <button class="flex items-center gap-2 px-6 py-3 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors rounded-xl disabled:opacity-50 disabled:cursor-not-allowed" onclick="prevPage()" disabled>
-                                <span class="material-symbols-outlined">arrow_left_alt</span>
-                                Previous
-                            </button>
-                            <p class="text-white text-sm font-medium">Page 1 of 5</p>
-                            <button class="flex items-center gap-2 px-6 py-3 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors rounded-xl" onclick="nextPage()">
-                                Next
-                                <span class="material-symbols-outlined">arrow_right_alt</span>
-                            </button>
-                        </div>
+</header>
 
-                    </div>
-                </main>
+<div class="px-6 sm:px-12 md:px-20 py-12">
+
+    <h1 class="text-4xl font-black tracking-tight">Job Postings</h1>
+    <p class="text-[#90a4cb] mt-2">Manage and analyze your current job openings.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-8">
+
+        <div class="relative col-span-1 md:col-span-2">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/60">search</span>
+            <input type="text" placeholder="Search by title or skill..."
+                class="w-full pl-12 pr-4 py-3 rounded-lg bg-[#1a2235] border border-[#314368] text-white focus:border-primary">
+        </div>
+
+        <select class="bg-[#1a2235] border border-[#314368] rounded-lg px-4 py-3 text-white">
+            <option>All Locations</option>
+            <option>Remote</option>
+            <option>San Francisco, CA</option>
+            <option>New York, NY</option>
+        </select>
+
+        <select class="bg-[#1a2235] border border-[#314368] rounded-lg px-4 py-3 text-white">
+            <option>All Departments</option>
+            <option>Engineering</option>
+            <option>Product</option>
+            <option>Design</option>
+        </select>
+
+    </div>
+
+    <div class="flex flex-col gap-5 mt-10">
+
+        <div class="p-6 bg-[#0f1b2d] rounded-xl border border-[#222f49] hover:border-primary/50 flex justify-between cursor-pointer transition">
+            <div>
+                <h3 class="font-bold text-xl">Senior Frontend Engineer</h3>
+                <p class="text-[#9ab0cf] text-sm mt-2 flex gap-4">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> San Francisco, CA</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">work</span> Engineering</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
+                </p>
+            </div>
+            <div class="text-right flex flex-col items-end">
+                <p class="text-primary text-xl font-bold">24</p>
+                <p class="text-[#90a4cb] text-sm">Candidates</p>
+                <span class="px-3 py-1 mt-1 bg-green-500/20 text-green-400 text-xs rounded-full">Active</span>
             </div>
         </div>
+
+        <div class="p-6 bg-[#0f1b2d] rounded-xl border border-[#222f49] hover:border-primary/50 flex justify-between cursor-pointer transition">
+            <div>
+                <h3 class="font-bold text-xl">Product Manager, AI Platform</h3>
+                <p class="text-[#9ab0cf] text-sm mt-2 flex gap-4">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">language</span> Remote</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">folder_open</span> Product</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
+                </p>
+            </div>
+
+            <div class="text-right flex flex-col items-end">
+                <p class="text-primary text-xl font-bold">12</p>
+                <p class="text-[#90a4cb] text-sm">Candidates</p>
+                <span class="px-3 py-1 mt-1 bg-green-500/20 text-green-400 text-xs rounded-full">Active</span>
+            </div>
+        </div>
+
+        <div class="p-6 bg-[#0f1b2d] rounded-xl border border-[#222f49] hover:border-primary/50 flex justify-between cursor-pointer transition">
+            <div>
+                <h3 class="font-bold text-xl">UX/UI Designer</h3>
+                <p class="text-[#9ab0cf] text-sm mt-2 flex gap-4">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">location_on</span> New York, NY</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">palette</span> Design</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">layers</span> Contract</span>
+                </p>
+            </div>
+
+            <div class="text-right flex flex-col items-end">
+                <p class="text-primary text-xl font-bold">3</p>
+                <p class="text-[#90a4cb] text-sm">Candidates</p>
+                <span class="px-3 py-1 mt-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full">Paused</span>
+            </div>
+        </div>
+
+        <div class="p-6 bg-[#0f1b2d] rounded-xl border border-[#222f49] hover:border-primary/50 flex justify-between cursor-pointer transition">
+            <div>
+                <h3 class="font-bold text-xl">DevOps Engineer</h3>
+                <p class="text-[#9ab0cf] text-sm mt-2 flex gap-4">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">language</span> Remote</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">work</span> Engineering</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">schedule</span> Full-time</span>
+                </p>
+            </div>
+
+            <div class="text-right flex flex-col items-end">
+                <p class="text-primary text-xl font-bold">38</p>
+                <p class="text-[#90a4cb] text-sm">Candidates</p>
+                <span class="px-3 py-1 mt-1 bg-red-500/20 text-red-400 text-xs rounded-full">Closed</span>
+            </div>
+        </div>
+
     </div>
+
+    <div class="flex items-center justify-between mt-12">
+        <button class="flex items-center gap-2 px-6 py-3 bg-[#1a2235] text-white/70 rounded-xl disabled:opacity-50 cursor-not-allowed">
+            <span class="material-symbols-outlined">arrow_left_alt</span>
+            Previous
+        </button>
+
+        <p class="text-white text-sm">Page 1 of 5</p>
+
+        <button class="flex items-center gap-2 px-6 py-3 bg-[#1a2235] text-white/70 hover:bg-primary/30 hover:text-white transition rounded-xl">
+            Next
+            <span class="material-symbols-outlined">arrow_right_alt</span>
+        </button>
+    </div>
+
 </div>
 
-<script>
-    // Placeholder functions for filters and pagination
-    function filterJobs() {
-        const searchTerm = document.querySelector('input[type="text"]').value;
-        const locationFilter = document.querySelectorAll('select')[0].value;
-        const departmentFilter = document.querySelectorAll('select')[1].value;
-        const statusFilter = document.querySelectorAll('select')[2].value;
-
-        console.log('Filtering Jobs:');
-        console.log('Search Term:', searchTerm);
-        console.log('Location:', locationFilter);
-        console.log('Department:', departmentFilter);
-        console.log('Status:', statusFilter);
-
-        // In a real application, you would re-render the job list based on these filters.
-        // For this demo, we just log the selections.
-    }
-
-    function prevPage() {
-        alert('Navigating to previous page!');
-        // Implement actual pagination logic here
-    }
-
-    function nextPage() {
-        alert('Navigating to next page!');
-        // Implement actual pagination logic here
-    }
-
-    // Function to set active navigation link
-    function setActiveLink(page) {
-        document.querySelectorAll('.nav-link').forEach(link => {
-            if (link.dataset.page === page) {
-                link.classList.add('text-primary', 'font-bold');
-                link.classList.remove('text-white/80', 'font-medium');
-            } else {
-                link.classList.remove('text-primary', 'font-bold');
-                link.classList.add('text-white/80', 'font-medium');
-            }
-        });
-    }
-
-    // Set the 'Jobs' link as active on page load
-    document.addEventListener('DOMContentLoaded', () => {
-        setActiveLink('jobs');
-    });
-</script>
 </body>
 </html>
