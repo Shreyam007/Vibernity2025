@@ -51,11 +51,11 @@
                         "background-dark": "#101622",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "Inter", "sans-serif"] 
+                        "display": ["Manrope", "Inter", "sans-serif"]
                     },
                     borderRadius: {
                         "DEFAULT": "0.5rem",
-                        "lg": "1rem", 
+                        "lg": "1rem",
                         "xl": "1.5rem",
                         "full": "9999px"
                     },
@@ -70,7 +70,6 @@
         <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
         <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
     </div>
-
     <div class="layout-container flex h-full grow flex-col z-10">
         <div id="app-header-container">
             <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#222f49] px-4 sm:px-10 py-3">
@@ -104,7 +103,6 @@
                 </button>
             </header>
         </div>
-
         <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
             <div class="layout-content-container flex flex-col w-full max-w-6xl flex-1">
                 <main class="flex-1 flex flex-col items-center py-10 sm:py-16" id="app-main-content">
@@ -113,12 +111,10 @@
         </div>
     </div>
 </div>
-
 <button class="fixed bottom-8 right-8 flex items-center gap-3 px-6 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-primary/90 transition-colors hidden" id="ask-ai-button">
     <span class="material-symbols-outlined">smart_toy</span>
     Ask AI Why?
 </button>
-
 <script>
     // ---------------------------------------------------
     // Global State for File Uploads
@@ -126,11 +122,9 @@
     let jobFileUploaded = false;
     let candidateAFileUploaded = false;
     let candidateBFileUploaded = false;
-
     // ---------------------------------------------------
     // Simulated Data (Kept for other pages but removed from ComparePage)
     // ---------------------------------------------------
-
     // Candidate Comparison Data (Simulated, will only appear after all 3 files are 'uploaded')
     const CANDIDATE_A_DATA = {
         name: "Liam Carter",
@@ -140,7 +134,6 @@
         missingSkills: ["GraphQL", "AWS Certified"],
         avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBxZSu1Ky0Qh88OkQfZOP11hwc2tRBCTwc0wMQIUewosXPBrU0iBV413aXSih0EkY_tl4n-HcbTsHmJOOLlulCDuxxZMpamSIGTAgFppgV2SVksEpSnBW7gUBIRU-YR-NShVxZ5zLzGp0IMY4Bdfpk3omxYZB0dbhEWbCbi3ZjD35R1jd60sJTunv42hGCcIVEuiEksa5AJE8b5u9PE4Qq738d8NC5Wt9jW7pEtBk6q1mF25M6cFyOXpGKjJ1m3ZWTshYq-SK0uq1jH"
     };
-
     const CANDIDATE_B_DATA = {
         name: "Olivia Chen",
         role: "Full Stack Developer",
@@ -149,13 +142,12 @@
         missingSkills: ["Next.js", "AWS Certified"],
         avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDoib3Rl74v6Pj6bxmdmkNofzQ2IqYOpx0tZByEWzT4FwTK_QIujLIFFkncltDA3EtQtwsZ92SEU7O3l0DaTHAq2mIqnhz8kJCifg7Xb3bdI0dLPQxnVza3NHqHOq9D06xhmEhOdmBrLSUJjwiYzveIjSw3tC4jq7smIoMBT_PRIHPM8MJEWga2HuN3ydzTl5P0-mGRWzE245r5_lr9ALM4wfrxSdewUv3EyTCtqmCVBgyIgSw86inTgLo0Q1Ywp4PQnHhoM0eLsFts"
     };
-
     const RECENT_DECISIONS = [
         { candidates: "Ava Patel vs. Noah Lee", time: "Today, 10:45 AM" },
         { candidates: "James Smith vs. Emma Wilson", time: "Yesterday, 3:20 PM" },
         { candidates: "Sophia Brown vs. Ben Taylor", time: "Sep 18, 9:00 AM" },
     ];
-    
+   
     const CANDIDATES_DATA = [
         { name: "Alex Johnson", role: "Senior Front End Developer", skills: ["React", "TypeScript", "CSS-in-JS"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuC5pls7sUyvGQw5QmAIsn8vOlHJQDj4IifuNPXeIsBxXhTPfYG0A4VVvaxJak_D3pGTxgxjy1fe5gbu5PCOIswKsvWcQVaH3ZujDgf96cp1-Hx3QlcBn8RGY4u2-s7odx0Wz4jWp-IVGRPB5jismQjQ7NyXBGXQcSS3uV1OHSb4gJuUch7LNWrbWuV9LRXagaKbAUyFpqfcmn60TAz9H2sqHJFxyq8P2u6xA8p0O56iP-5PdVyF7CDiJHslbEb5zl-ZvwHFB8_G25GU" },
         { name: "Brenda Smith", role: "Full Stack Developer", skills: ["Node.js", "GraphQL", "PostgreSQL"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRRFdKKAWaMSnzM_YBdSZlOUmSHzmeIMOIZRsNu42iyfcw-quWT3fXnnT6yvDI3Zjb9dJbupoR877zuYcSIgdrnWYnpTriiLRuxA0_K-pyodfAsFLpTqm_9bTDradZNs7B8ih7FVYGG4uGyqxoOXThgATDI_J8s_Q6Ry2znlrRMkNSIWxQOTVd8oq0S7pdg5TJavTPJjzb3wBhG-ri_NnApaiPSd-WRmkp9GCfTd2uxi8wLyyRIO4TJK7n3xKfFaz3TfdI7KxVuUW1" },
@@ -163,18 +155,14 @@
         { name: "Diana Prince", role: "Product Manager", skills: ["Agile", "Roadmapping", "Jira"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBU_hg7f6_F6bEeiLBtsEfcn6BAvPAqj7bGG9jH45B7-4IectxOq-58EMlk3E_BWpn-RvAQEBAxMzb3ZMbDxwavmHaQ6JYKLHurTJce9R8hBYFdvDrB6xdtsuHtoXdHX45LM_PnWvqm_gNVmYMT7nENaU9XA-RQiwmj_nNZk7R9UX0PrDFU7dmFWLnk8MdHMBQ5hcL8Z1WOQ9GNVdGwCEl9q8XVW8zl6SrRJn9twdBfE3CIVYWEwaqJX1DBRLuu9CsSL91Zpbn6Km3c" },
         { name: "Edward Nygma", role: "Data Scientist", skills: ["Python", "Machine Learning", "SQL"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBrwO2u2re5in8hDYltVM-NUht_I5rhNk4OjX9eUIkiaOsd-p8PWA1bUPzE_qG1Fu5-UBj2PHmazbDJMCxOQKkObBbciqD2010IYnafU1M-B-s8COY3_Eub4cpRTS_dSRwYGV69Urya_T-Bv3vDIfV4xdrKPNDwxxIBypIzApEQDBfvQhzXoDoixz0_M7YvuvLjWLntn7aQaec1HRewKRqeT2GZQSdxgVZn1MH8qZ9r4_JAkToOENuCWt32qHA0cBzePFPV6FfG1q7T" },
     ];
-
-
     // ---------------------------------------------------
     // Core UI Components and Listeners
     // ---------------------------------------------------
-
     function getSkillTag(skill, isMissing = false) {
         const bgColor = isMissing ? 'bg-orange-500/20' : 'bg-primary/20';
         const textColor = isMissing ? 'text-orange-400' : 'text-primary';
         return `<span class="px-3 py-1 text-sm font-medium ${bgColor} ${textColor} rounded-full">${skill}</span>`;
     }
-
     function setActiveLink(page) {
         document.querySelectorAll('.nav-link').forEach(link => {
             if (link.dataset.page === page || (page === 'home' && link.dataset.page === 'dashboard')) {
@@ -186,22 +174,19 @@
             }
         });
     }
-
     function attachHeaderButtonListeners() {
         const notificationsBtn = document.getElementById('notifications-btn');
         const settingsBtn = document.getElementById('settings-btn');
         const profileBtn = document.getElementById('profile-btn');
         const filterBtn = document.getElementById('filter-btn');
         const newSearchBtn = document.getElementById('new-search-btn');
-
         if (notificationsBtn) notificationsBtn.addEventListener('click', () => alert('Notifications clicked!'));
         if (settingsBtn) settingsBtn.addEventListener('click', () => alert('Settings clicked!'));
         if (profileBtn) profileBtn.addEventListener('click', () => alert('Profile clicked!'));
-        
+       
         if (filterBtn) filterBtn.addEventListener('click', () => alert('Filter Candidates clicked!'));
         if (newSearchBtn) newSearchBtn.addEventListener('click', () => alert('New Candidate Search clicked!'));
     }
-
     function renderHeaderButtons(currentPage) {
         let buttonsHtml = `
             <button id="notifications-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
@@ -212,7 +197,6 @@
             </button>
             <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa");'></div>
         `;
-
         if (currentPage === 'candidates') {
             const candidateButtons = `
                 <button id="filter-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
@@ -224,26 +208,21 @@
             `;
             buttonsHtml = candidateButtons + buttonsHtml;
         }
-
         const container = document.getElementById('header-buttons-container');
         if (container) {
             container.innerHTML = buttonsHtml;
             attachHeaderButtonListeners();
         }
     }
-
-
     // ---------------------------------------------------
     // Upload Functionality (Modified with Drag & Drop)
     // ---------------------------------------------------
-    
+   
     function updateCompareButtonState() {
         const compareButton = document.getElementById('home-compare-button');
         if (!compareButton) return;
-
         // Check if all three files are considered uploaded
         const allUploaded = jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded;
-
         if (allUploaded) {
             compareButton.disabled = false;
             compareButton.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -256,14 +235,11 @@
             compareButton.classList.remove('hover:scale-105');
         }
     }
-
     function handleFileSelect(file, nameElementId, buttonTextId, fileType) {
         if (!file) return;
-
         const fileNameElement = document.getElementById(nameElementId);
         const buttonTextElement = document.getElementById(buttonTextId);
         const uploadButton = buttonTextElement.closest('button');
-
         // 1. Update global state based on fileType
         if (fileType === 'job') {
             jobFileUploaded = true;
@@ -272,58 +248,47 @@
         } else if (fileType === 'candidateB') {
             candidateBFileUploaded = true;
         }
-
         // 2. Update file name
         fileNameElement.textContent = file.name;
-        
+       
         // 3. Update descriptive text
         const descriptiveText = fileNameElement.nextElementSibling;
         descriptiveText.textContent = 'File uploaded successfully';
         descriptiveText.classList.remove('text-[#90a4cb]');
         descriptiveText.classList.add('text-green-400');
-
         // 4. Update button style
         buttonTextElement.textContent = 'Change File';
         if (uploadButton) {
             uploadButton.classList.remove('bg-[#222f49]');
             uploadButton.classList.add('bg-primary/80');
         }
-
         // 5. Update Compare button state
         updateCompareButtonState();
-
         console.log(`${fileType} file uploaded:`, file.name);
     }
-
     // Function to set up click-to-upload listener
     function setupUploadListener(uploadContainerId, inputId, nameId, buttonTextId, fileType) {
         const uploadContainer = document.getElementById(uploadContainerId);
         if (!uploadContainer) return;
-        
+       
         const uploadButton = uploadContainer.querySelector('button');
         const fileInput = document.getElementById(inputId);
-
         uploadButton?.addEventListener('click', (e) => {
             e.preventDefault();
             fileInput?.click();
         });
-
         fileInput?.addEventListener('change', (e) => {
             const file = e.target.files[0];
             handleFileSelect(file, nameId, buttonTextId, fileType);
         });
     }
-
     // New function to set up drag and drop listener
     function setupDragAndDropListener(containerId, inputId, nameId, buttonTextId, fileType) {
         const container = document.getElementById(containerId);
         if (!container) return;
-
         // Get the inner glassmorphism div which is the drop zone
         const dropZone = container.querySelector('.glassmorphism');
-
         if (!dropZone) return;
-
         // Prevent default behavior (which is to open the file)
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, (e) => {
@@ -331,45 +296,39 @@
                 e.stopPropagation();
             }, false);
         });
-
         // Add visual feedback
         ['dragenter', 'dragover'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
                 dropZone.classList.add('is-drag-over');
             }, false);
         });
-
         ['dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, () => {
                 dropZone.classList.remove('is-drag-over');
             }, false);
         });
-
         // Handle file drop
         dropZone.addEventListener('drop', (e) => {
             const dt = e.dataTransfer;
             const files = dt.files;
-
             if (files.length > 0) {
                 const file = files[0];
                 // Manually set the file in the hidden input for form consistency (optional)
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(file);
                 document.getElementById(inputId).files = dataTransfer.files;
-                
+               
                 handleFileSelect(file, nameId, buttonTextId, fileType);
             }
         }, false);
     }
-
     // ---------------------------------------------------
     // Dynamic Page Rendering Functions
     // ---------------------------------------------------
-
-    // The 'renderCandidateCard' function is intentionally kept here, 
-    // but the actual data displayed will need to be generated 
-    // *after* the user clicks 'Compare Candidates'. 
-    // For now, we will simulate this by using the existing CANDIDATE_A/B_DATA 
+    // The 'renderCandidateCard' function is intentionally kept here,
+    // but the actual data displayed will need to be generated
+    // *after* the user clicks 'Compare Candidates'.
+    // For now, we will simulate this by using the existing CANDIDATE_A/B_DATA
     // only when the compare page is loaded via the button click.
     function renderCandidateCard(candidate) {
         return `
@@ -406,14 +365,13 @@
             </div>
         `;
     }
-
     function renderComparePage() {
-        // Only render the heading and description. The actual content 
-        // (Candidate Cards, AI Recommendation, etc.) will be dynamically generated 
+        // Only render the heading and description. The actual content
+        // (Candidate Cards, AI Recommendation, etc.) will be dynamically generated
         // in a real application once the data processing is complete.
-        // For the purpose of this task, we will show the simulated result 
+        // For the purpose of this task, we will show the simulated result
         // only when coming from the 'home' page after uploading files.
-        
+       
         let comparisonContent;
         if (jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded) {
              // Simulate the result being available
@@ -424,7 +382,6 @@
                     </button>
                 </div>
             `;
-
             const summaryAndSuggestions = `
                 <div class="lg:col-span-12 mt-8 flex flex-col lg:flex-row gap-8">
                     <div class="flex-1 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
@@ -449,7 +406,6 @@
                     </div>
                 </div>
             `;
-
             const recentDecisions = `
                 <div class="mt-16 w-full">
                     <h2 class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] p-4">Recent AI Decisions</h2>
@@ -468,7 +424,6 @@
                     </div>
                 </div>
             `;
-
             comparisonContent = `
                 <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full px-4 sm:px-10 md:px-20 lg:px-0">
                     ${renderCandidateCard(CANDIDATE_A_DATA)}
@@ -478,7 +433,6 @@
                 </div>
                 ${recentDecisions}
             `;
-
         } else {
             // Show a message if data hasn't been uploaded yet (e.g., accessed via nav link directly)
             comparisonContent = `
@@ -489,7 +443,6 @@
                 </div>
             `;
         }
-
         return `
             <div class="w-full flex flex-wrap justify-between gap-3 p-4">
                 <div class="flex min-w-72 flex-col gap-3">
@@ -500,7 +453,6 @@
             ${comparisonContent}
         `;
     }
-
     function renderCandidatesPage() {
         const candidateList = CANDIDATES_DATA.map(candidate => `
             <div class="flex flex-col gap-4 rounded-xl p-4 glassmorphism hover:ring-2 hover:ring-primary/50 transition-all duration-300">
@@ -527,7 +479,6 @@
                 </div>
             </div>
         `).join('');
-
         return `
             <div class="w-full flex flex-wrap justify-between gap-3 p-4 max-w-[960px] mx-auto">
                 <div class="flex min-w-72 flex-col gap-3">
@@ -540,7 +491,6 @@
             </div>
         `;
     }
-
     function renderHomePage() {
         return `
             <div class="flex flex-wrap justify-between gap-3 p-4 text-center w-full max-w-4xl">
@@ -599,16 +549,14 @@
             </div>
         `;
     }
-
     function loadPage(page) {
         const mainContent = document.getElementById('app-main-content');
         const askAiButton = document.getElementById('ask-ai-button');
-
         renderHeaderButtons(page);
-        
+       
         mainContent.innerHTML = '';
         setActiveLink(page);
-        
+       
         // --- Page Routing ---
         if (page === 'compare') {
             mainContent.innerHTML = renderComparePage();
@@ -625,7 +573,6 @@
             // Default to Home/Dashboard page
             mainContent.innerHTML = renderHomePage();
             askAiButton.classList.add('hidden');
-
             // Setup Upload (Button and Drag & Drop) Listeners
             // 1. Job Description
             setupUploadListener('upload-job-container', 'job-input', 'job-name', 'job-button-text', 'job');
@@ -636,10 +583,9 @@
             // 3. Candidate B
             setupUploadListener('upload-candidate-b-container', 'candidate-b-input', 'candidate-b-name', 'candidate-b-button-text', 'candidateB');
             setupDragAndDropListener('upload-candidate-b-container', 'candidate-b-input', 'candidate-b-name', 'candidate-b-button-text', 'candidateB');
-            
+           
             // Check state on load (for persistence across navigation, though we don't persist files)
-            updateCompareButtonState(); 
-
+            updateCompareButtonState();
             document.getElementById('home-compare-button').addEventListener('click', (e) => {
                 if (e.target.disabled) {
                     alert('Please upload all three files (Job Description, Candidate A, and Candidate B) before comparing.');
@@ -650,15 +596,12 @@
             });
         }
     }
-
     // ---------------------------------------------------
     // Initial Load and Routing
     // ---------------------------------------------------
-
     function handleHashChange() {
         const hash = window.location.hash.replace('#', '');
-        const page = hash === 'dashboard' ? 'home' : hash || 'home'; 
-
+        const page = hash === 'dashboard' ? 'home' : hash || 'home';
         const pageMap = {
             'compare': 'compare',
             'dashboard': 'home', // Map dashboard to home for content loading
@@ -666,14 +609,12 @@
             'candidates': 'candidates',
             'home': 'home'
         };
-        
+       
         const currentPage = pageMap[page] || 'home';
         loadPage(currentPage);
     }
-
     // Listen for hash changes (back/forward buttons)
     window.addEventListener('hashchange', handleHashChange);
-
     // Initial page load
     document.addEventListener('DOMContentLoaded', () => {
         // Attach event listeners to nav links
@@ -685,11 +626,24 @@
                 loadPage(page);
             });
         });
-
         // Load the initial page based on the URL hash
         handleHashChange();
     });
-
+</script>
+<!-- ✅ Botpress Loader -->
+<script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js" defer></script>
+<!-- ✅ YOUR Bot's unique config file -->
+<script src="https://files.bpcontent.cloud/2025/11/11/05/20251111050727-H32176KB.js" defer></script>
+<!-- ✅ Ask AI Button → Open Chatbot -->
+<script>
+setTimeout(() => {
+    const askBtn = document.getElementById("ask-ai-button");
+    if (askBtn) {
+        askBtn.addEventListener("click", () => {
+            window.botpressWebChat.sendEvent({ type: "show" });
+        });
+    }
+}, 1200); // wait for botpress to load fully
 </script>
 </body>
 </html>
