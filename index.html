@@ -39,6 +39,15 @@
         body::-webkit-scrollbar-track {
             background-color: #1A2233;
         }
+        /* Custom input and select styles for profile page */
+        .profile-input {
+            /* Tailwind @apply to style the input fields consistently */
+            @apply w-full px-4 py-3 rounded-lg bg-[#222f49] border border-[#314368] text-white placeholder-white/50 focus:border-primary focus:ring-primary focus:outline-none transition-colors;
+        }
+        /* Active nav item for Profile sidebar */
+        .profile-nav-active {
+            @apply bg-primary/20 text-primary font-bold;
+        }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
@@ -51,11 +60,11 @@
                         "background-dark": "#101622",
                     },
                     fontFamily: {
-                        "display": ["Manrope", "Inter", "sans-serif"]
+                        "display": ["Manrope", "Inter", "sans-serif"] 
                     },
                     borderRadius: {
                         "DEFAULT": "0.5rem",
-                        "lg": "1rem",
+                        "lg": "1rem", 
                         "xl": "1.5rem",
                         "full": "9999px"
                     },
@@ -70,8 +79,9 @@
         <div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
         <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-primary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
     </div>
+
     <div class="layout-container flex h-full grow flex-col z-10">
-        <div id="app-header-container">
+        <div id="app-header-container" class="sticky top-0 z-50 bg-background-dark/90 backdrop-blur-md">
             <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#222f49] px-4 sm:px-10 py-3">
                 <div class="flex items-center gap-4 text-white">
                     <div class="size-6 text-primary">
@@ -86,16 +96,9 @@
                         <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#dashboard" data-page="dashboard">Dashboard</a>
                         <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="jobs.html" data-page="jobs">Jobs</a>
                         <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#candidates" data-page="candidates">Candidates</a>
-                        <a class="nav-link text-primary text-sm font-bold leading-normal" href="#compare" data-page="compare" id="compare-link">Compare</a>
+                        <a class="nav-link text-white/80 hover:text-white transition-colors text-sm font-medium leading-normal" href="#compare" data-page="compare" id="compare-link">Compare</a>
                     </div>
                     <div class="flex items-center gap-2" id="header-buttons-container">
-                        <button id="notifications-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                            <span class="material-symbols-outlined">notifications</span>
-                        </button>
-                        <button id="settings-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
-                            <span class="material-symbols-outlined">settings</span>
-                        </button>
-                        <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa");'></div>
                     </div>
                 </div>
                 <button class="md:hidden flex items-center justify-center rounded-lg h-10 w-10 bg-[#222f49] text-white">
@@ -103,68 +106,80 @@
                 </button>
             </header>
         </div>
+
         <div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
             <div class="layout-content-container flex flex-col w-full max-w-6xl flex-1">
                 <main class="flex-1 flex flex-col items-center py-10 sm:py-16" id="app-main-content">
-                </main>
+                    </main>
             </div>
         </div>
     </div>
 </div>
+
 <button class="fixed bottom-8 right-8 flex items-center gap-3 px-6 py-3 bg-primary text-white font-bold rounded-full shadow-lg hover:bg-primary/90 transition-colors hidden" id="ask-ai-button">
     <span class="material-symbols-outlined">smart_toy</span>
     Ask AI Why?
 </button>
+
 <script>
     // ---------------------------------------------------
-    // Global State for File Uploads
+    // Global State & Data
     // ---------------------------------------------------
     let jobFileUploaded = false;
     let candidateAFileUploaded = false;
     let candidateBFileUploaded = false;
-    // ---------------------------------------------------
-    // Simulated Data (Kept for other pages but removed from ComparePage)
-    // ---------------------------------------------------
-    // Candidate Comparison Data (Simulated, will only appear after all 3 files are 'uploaded')
-    const CANDIDATE_A_DATA = {
-        name: "Liam Carter",
-        role: "Senior Frontend Developer",
-        score: 85,
-        matchedSkills: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Redux"],
-        missingSkills: ["GraphQL", "AWS Certified"],
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBxZSu1Ky0Qh88OkQfZOP11hwc2tRBCTwc0wMQIUewosXPBrU0iBV413aXSih0EkY_tl4n-HcbTsHmJOOLlulCDuxxZMpamSIGTAgFppgV2SVksEpSnBW7gUBIRU-YR-NShVxZ5zLzGp0IMY4Bdfpk3omxYZB0dbhEWbCbi3ZjD35R1jd60sJTunv42hGCcIVEuiEksa5AJE8b5u9PE4Qq738d8NC5Wt9jW7pEtBk6q1mF25M6cFyOXpGKjJ1m3ZWTshYq-SK0uq1jH"
+    
+    // --- Simulated User Data for Profile Page ---
+    const USER_PROFILE_DATA = {
+        name: "John Doe",
+        title: "Recruitment Manager",
+        company: "Innovatech Solutions",
+        email: "j.doe@example.com",
+        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa" // Default avatar used in header
     };
-    const CANDIDATE_B_DATA = {
+    
+    // Mock Data (Assuming they are defined elsewhere or simplified for this context)
+    const CANDIDATE_A_DATA = { 
+        name: "Liam Carter",
+        title: "Senior Frontend Developer",
+        match: 92,
+        experience: "8 years",
+        skills: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Jest"],
+        missingSkills: ["AWS"],
+        avatar: "https://i.pravatar.cc/150?img=68"
+    };
+    const CANDIDATE_B_DATA = { 
         name: "Olivia Chen",
-        role: "Full Stack Developer",
-        score: 71,
-        matchedSkills: ["React", "TypeScript", "Node.js", "SQL", "GraphQL"],
-        missingSkills: ["Next.js", "AWS Certified"],
-        avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDoib3Rl74v6Pj6bxmdmkNofzQ2IqYOpx0tZByEWzT4FwTK_QIujLIFFkncltDA3EtQtwsZ92SEU7O3l0DaTHAq2mIqnhz8kJCifg7Xb3bdI0dLPQxnVza3NHqHOq9D06xhmEhOdmBrLSUJjwiYzveIjSw3tC4jq7smIoMBT_PRIHPM8MJEWga2HuN3ydzTl5P0-mGRWzE245r5_lr9ALM4wfrxSdewUv3EyTCtqmCVBgyIgSw86inTgLo0Q1Ywp4PQnHhoM0eLsFts"
+        title: "Full Stack Engineer",
+        match: 78,
+        experience: "6 years",
+        skills: ["Node.js", "Express", "GraphQL", "MongoDB", "React"],
+        missingSkills: ["Next.js", "TypeScript"],
+        avatar: "https://i.pravatar.cc/150?img=47"
     };
     const RECENT_DECISIONS = [
-        { candidates: "Ava Patel vs. Noah Lee", time: "Today, 10:45 AM" },
-        { candidates: "James Smith vs. Emma Wilson", time: "Yesterday, 3:20 PM" },
-        { candidates: "Sophia Brown vs. Ben Taylor", time: "Sep 18, 9:00 AM" },
+        { candidates: "Sarah J. vs Mark K.", time: "2 hours ago" },
+        { candidates: "Alex R. vs Ben W.", time: "1 day ago" },
+        { candidates: "Emily B. vs David C.", time: "3 days ago" },
+        { candidates: "Fiona G. vs George H.", time: "1 week ago" },
     ];
-   
-    const CANDIDATES_DATA = [
-        { name: "Alex Johnson", role: "Senior Front End Developer", skills: ["React", "TypeScript", "CSS-in-JS"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuC5pls7sUyvGQw5QmAIsn8vOlHJQDj4IifuNPXeIsBxXhTPfYG0A4VVvaxJak_D3pGTxgxjy1fe5gbu5PCOIswKsvWcQVaH3ZujDgf96cp1-Hx3QlcBn8RGY4u2-s7odx0Wz4jWp-IVGRPB5jismQjQ7NyXBGXQcSS3uV1OHSb4gJuUch7LNWrbWuV9LRXagaKbAUyFpqfcmn60TAz9H2sqHJFxyq8P2u6xA8p0O56iP-5PdVyF7CDiJHslbEb5zl-ZvwHFB8_G25GU" },
-        { name: "Brenda Smith", role: "Full Stack Developer", skills: ["Node.js", "GraphQL", "PostgreSQL"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuDRRFdKKAWaMSnzM_YBdSZlOUmSHzmeIMOIZRsNu42iyfcw-quWT3fXnnT6yvDI3Zjb9dJbupoR877zuYcSIgdrnWYnpTriiLRuxA0_K-pyodfAsFLpTqm_9bTDradZNs7B8ih7FVYGG4uGyqxoOXThgATDI_J8s_Q6Ry2znlrRMkNSIWxQOTVd8oq0S7pdg5TJavTPJjzb3wBhG-ri_NnApaiPSd-WRmkp9GCfTd2uxi8wLyyRIO4TJK7n3xKfFaz3TfdI7KxVuUW1" },
-        { name: "Carlos Rodriguez", role: "UX Designer", skills: ["Figma", "User Research", "Prototyping"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuApJVzv7ktpOfpxDuA_i_IviI61iB6LIYa7LjclgwkJ8t4Vlwt8znjFvnJr-YPgqnT6V0F0LtijtOPRuGo1h7vzLRIZuYzpSbq5xD1PLuWKMnElJfg6tZhu27MIzpvEDqHHxYCcU_0INq9bY8i3WDoLlnjVcUynENdQn8lNnykrYZ6-lyWlp1_m-1y_AhgkmK3-neoPt1AYWM7aLgfq4TxLVWZLEwiLsdoIlZjWS-dippci-y5bvAFBuZgcYKihan6O26SbFMGwT_oN" },
-        { name: "Diana Prince", role: "Product Manager", skills: ["Agile", "Roadmapping", "Jira"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBU_hg7f6_F6bEeiLBtsEfcn6BAvPAqj7bGG9jH45B7-4IectxOq-58EMlk3E_BWpn-RvAQEBAxMzb3ZMbDxwavmHaQ6JYKLHurTJce9R8hBYFdvDrB6xdtsuHtoXdHX45LM_PnWvqm_gNVmYMT7nENaU9XA-RQiwmj_nNZk7R9UX0PrDFU7dmFWLnk8MdHMBQ5hcL8Z1WOQ9GNVdGwCEl9q8XVW8zl6SrRJn9twdBfE3CIVYWEwaqJX1DBRLuu9CsSL91Zpbn6Km3c" },
-        { name: "Edward Nygma", role: "Data Scientist", skills: ["Python", "Machine Learning", "SQL"], avatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuBrwO2u2re5in8hDYltVM-NUht_I5rhNk4OjX9eUIkiaOsd-p8PWA1bUPzE_qG1Fu5-UBj2PHmazbDJMCxOQKkObBbciqD2010IYnafU1M-B-s8COY3_Eub4cpRTS_dSRwYGV69Urya_T-Bv3vDIfV4xdrKPNDwxxIBypIzApEQDBfvQhzXoDoixz0_M7YvuvLjWLntn7aQaec1HRewKRqeT2GZQSdxgVZn1MH8qZ9r4_JAkToOENuCWt32qHA0cBzePFPV6FfG1q7T" },
-    ];
+    const CANDIDATES_DATA = []; // Placeholder for full candidates list
+    
+    // ... (Your other global data here) ...
+
     // ---------------------------------------------------
     // Core UI Components and Listeners
     // ---------------------------------------------------
+
     function getSkillTag(skill, isMissing = false) {
         const bgColor = isMissing ? 'bg-orange-500/20' : 'bg-primary/20';
         const textColor = isMissing ? 'text-orange-400' : 'text-primary';
         return `<span class="px-3 py-1 text-sm font-medium ${bgColor} ${textColor} rounded-full">${skill}</span>`;
     }
+
     function setActiveLink(page) {
         document.querySelectorAll('.nav-link').forEach(link => {
+            // Check if the link corresponds to the current page
             if (link.dataset.page === page || (page === 'home' && link.dataset.page === 'dashboard')) {
                 link.classList.add('text-primary', 'font-bold');
                 link.classList.remove('text-white/80', 'font-medium');
@@ -173,222 +188,214 @@
                 link.classList.add('text-white/80', 'font-medium');
             }
         });
+        
+        // Custom styling for profile button (it's not a standard nav-link)
+        const profileBtn = document.getElementById('profile-btn');
+        if (profileBtn) {
+             if (page === 'profile' || page === 'security' || page === 'settings') {
+                profileBtn.classList.add('border-primary'); // Highlight border for active profile
+                profileBtn.classList.remove('border-primary/50');
+             } else {
+                profileBtn.classList.remove('border-primary');
+                profileBtn.classList.add('border-primary/50');
+             }
+        }
+        
+        // Custom styling for profile sidebar links
+        document.querySelectorAll('.profile-nav-link').forEach(link => {
+            link.classList.remove('profile-nav-active');
+            link.classList.add('text-white/80', 'hover:bg-[#222f49]', 'hover:text-white', 'font-medium');
+            if (link.dataset.page === page) {
+                link.classList.add('profile-nav-active');
+                link.classList.remove('text-white/80', 'hover:bg-[#222f49]', 'hover:text-white', 'font-medium');
+            }
+        });
     }
+
     function attachHeaderButtonListeners() {
         const notificationsBtn = document.getElementById('notifications-btn');
         const settingsBtn = document.getElementById('settings-btn');
         const profileBtn = document.getElementById('profile-btn');
         const filterBtn = document.getElementById('filter-btn');
         const newSearchBtn = document.getElementById('new-search-btn');
+
         if (notificationsBtn) notificationsBtn.addEventListener('click', () => alert('Notifications clicked!'));
-        if (settingsBtn) settingsBtn.addEventListener('click', () => alert('Settings clicked!'));
-        if (profileBtn) profileBtn.addEventListener('click', () => alert('Profile clicked!'));
-       
+        if (settingsBtn) settingsBtn.addEventListener('click', () => {
+            // Navigate to the settings page within the profile section
+            window.location.hash = '#settings'; 
+        });
+        
+        // Update profile button to navigate to the profile page
+        if (profileBtn) profileBtn.addEventListener('click', () => {
+            window.location.hash = '#profile';
+        });
+        
         if (filterBtn) filterBtn.addEventListener('click', () => alert('Filter Candidates clicked!'));
         if (newSearchBtn) newSearchBtn.addEventListener('click', () => alert('New Candidate Search clicked!'));
     }
+
     function renderHeaderButtons(currentPage) {
         let buttonsHtml = `
-            <button id="notifications-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
+            <button id="notifications-btn" class="relative flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
                 <span class="material-symbols-outlined">notifications</span>
             </button>
             <button id="settings-btn" class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-[#222f49] text-white/80 hover:text-white hover:bg-primary/30 transition-colors gap-2 text-sm font-bold leading-normal tracking-[0.015em] min-w-0 px-2.5">
                 <span class="material-symbols-outlined">settings</span>
             </button>
-            <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer" data-alt="User avatar image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDtriDyF7CKP0JkUOmiT0fssp3lIxPOUL9bi5QTe3M8mzKQcFgUOQgZWlUJy-lA810Whm_4_lYeRgN9gFP8UxpGUFdlb-efEViBvDzCISd-lgqDwBGZpu40-2EQhgMlVME5I6SIV02qISbARHT_HsjSwIqcLtyhVMivK8U6xEiv_tcA_S6oAw4ViXqZImU6rwn8AiaE8hONolqmcwo1yBnWZhDAeDU1W7uH_screhqrAsnLG4oBqZIvsLpVQL3gkv90VjeuvQeGYYAa");'></div>
+            <div id="profile-btn" class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/50 cursor-pointer transition-all" data-alt="User avatar image" style='background-image: url("${USER_PROFILE_DATA.avatar}");'></div>
         `;
+
         if (currentPage === 'candidates') {
             const candidateButtons = `
-                <button id="filter-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                <button id="filter-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
                     <span class="truncate">Filter</span>
                 </button>
-                <button id="new-search-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#222f49] text-white text-sm font-bold leading-normal tracking-[0.015em]">
+                <button id="new-search-btn" class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#222f49] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/30 transition-colors">
                     <span class="truncate">New Search</span>
                 </button>
             `;
-            buttonsHtml = candidateButtons + buttonsHtml;
+            // Add Candidate buttons before the standard buttons
+            buttonsHtml = candidateButtons + buttonsHtml; 
         }
+
         const container = document.getElementById('header-buttons-container');
         if (container) {
             container.innerHTML = buttonsHtml;
             attachHeaderButtonListeners();
         }
     }
+
+
     // ---------------------------------------------------
-    // Upload Functionality (Modified with Drag & Drop)
+    // Upload Functionality (Mocked)
     // ---------------------------------------------------
-   
-    function updateCompareButtonState() {
-        const compareButton = document.getElementById('home-compare-button');
-        if (!compareButton) return;
-        // Check if all three files are considered uploaded
-        const allUploaded = jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded;
-        if (allUploaded) {
-            compareButton.disabled = false;
-            compareButton.classList.remove('opacity-50', 'cursor-not-allowed');
-            // Ensure hover effects are active
-            compareButton.classList.add('hover:scale-105');
-        } else {
-            compareButton.disabled = true;
-            compareButton.classList.add('opacity-50', 'cursor-not-allowed');
-            // Remove hover effects when disabled
-            compareButton.classList.remove('hover:scale-105');
+    
+    function updateCompareButtonState() { 
+        const compareBtn = document.getElementById('home-compare-button');
+        if (compareBtn) {
+            compareBtn.disabled = !(jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded);
         }
     }
-    function handleFileSelect(file, nameElementId, buttonTextId, fileType) {
-        if (!file) return;
+    
+    function handleFileSelect(file, nameElementId, buttonTextId, fileType) { 
         const fileNameElement = document.getElementById(nameElementId);
         const buttonTextElement = document.getElementById(buttonTextId);
-        const uploadButton = buttonTextElement.closest('button');
-        // 1. Update global state based on fileType
-        if (fileType === 'job') {
-            jobFileUploaded = true;
-        } else if (fileType === 'candidateA') {
-            candidateAFileUploaded = true;
-        } else if (fileType === 'candidateB') {
-            candidateBFileUploaded = true;
+
+        if (file) {
+            const fileName = file.name;
+            fileNameElement.textContent = fileName;
+            buttonTextElement.textContent = 'Change File';
+            
+            // Update global state
+            if (fileType === 'job') jobFileUploaded = true;
+            if (fileType === 'candidateA') candidateAFileUploaded = true;
+            if (fileType === 'candidateB') candidateBFileUploaded = true;
+        } else {
+            fileNameElement.textContent = fileType === 'job' ? 'Job Description' : (fileType === 'candidateA' ? 'Candidate A Profile' : 'Candidate B Profile');
+            buttonTextElement.textContent = 'Upload File';
+
+            // Update global state
+            if (fileType === 'job') jobFileUploaded = false;
+            if (fileType === 'candidateA') candidateAFileUploaded = false;
+            if (fileType === 'candidateB') candidateBFileUploaded = false;
         }
-        // 2. Update file name
-        fileNameElement.textContent = file.name;
-       
-        // 3. Update descriptive text
-        const descriptiveText = fileNameElement.nextElementSibling;
-        descriptiveText.textContent = 'File uploaded successfully';
-        descriptiveText.classList.remove('text-[#90a4cb]');
-        descriptiveText.classList.add('text-green-400');
-        // 4. Update button style
-        buttonTextElement.textContent = 'Change File';
-        if (uploadButton) {
-            uploadButton.classList.remove('bg-[#222f49]');
-            uploadButton.classList.add('bg-primary/80');
-        }
-        // 5. Update Compare button state
         updateCompareButtonState();
-        console.log(`${fileType} file uploaded:`, file.name);
     }
-    // Function to set up click-to-upload listener
-    function setupUploadListener(uploadContainerId, inputId, nameId, buttonTextId, fileType) {
-        const uploadContainer = document.getElementById(uploadContainerId);
-        if (!uploadContainer) return;
-       
-        const uploadButton = uploadContainer.querySelector('button');
-        const fileInput = document.getElementById(inputId);
-        uploadButton?.addEventListener('click', (e) => {
-            e.preventDefault();
-            fileInput?.click();
+    
+    function setupUploadListener(uploadContainerId, inputId, nameId, buttonTextId, fileType) { 
+        const input = document.getElementById(inputId);
+        const button = document.querySelector(`#${uploadContainerId} button`);
+        
+        button.addEventListener('click', () => {
+            input.click();
         });
-        fileInput?.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            handleFileSelect(file, nameId, buttonTextId, fileType);
+
+        input.addEventListener('change', (e) => {
+            handleFileSelect(e.target.files[0], nameId, buttonTextId, fileType);
         });
     }
-    // New function to set up drag and drop listener
-    function setupDragAndDropListener(containerId, inputId, nameId, buttonTextId, fileType) {
+    
+    function setupDragAndDropListener(containerId, inputId, nameId, buttonTextId, fileType) { 
         const container = document.getElementById(containerId);
-        if (!container) return;
-        // Get the inner glassmorphism div which is the drop zone
-        const dropZone = container.querySelector('.glassmorphism');
-        if (!dropZone) return;
-        // Prevent default behavior (which is to open the file)
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, false);
+        const input = document.getElementById(inputId);
+
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            container.classList.add('is-drag-over');
         });
-        // Add visual feedback
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => {
-                dropZone.classList.add('is-drag-over');
-            }, false);
+        container.addEventListener('dragleave', () => {
+            container.classList.remove('is-drag-over');
         });
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, () => {
-                dropZone.classList.remove('is-drag-over');
-            }, false);
-        });
-        // Handle file drop
-        dropZone.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length > 0) {
-                const file = files[0];
-                // Manually set the file in the hidden input for form consistency (optional)
-                const dataTransfer = new DataTransfer();
-                dataTransfer.items.add(file);
-                document.getElementById(inputId).files = dataTransfer.files;
-               
-                handleFileSelect(file, nameId, buttonTextId, fileType);
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            container.classList.remove('is-drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                // Simulate setting the file on the input element
+                // Note: The actual file upload/read logic is much more complex
+                handleFileSelect(file, nameId, buttonTextId, fileType); 
             }
-        }, false);
+        });
     }
+
+
     // ---------------------------------------------------
     // Dynamic Page Rendering Functions
     // ---------------------------------------------------
-    // The 'renderCandidateCard' function is intentionally kept here,
-    // but the actual data displayed will need to be generated
-    // *after* the user clicks 'Compare Candidates'.
-    // For now, we will simulate this by using the existing CANDIDATE_A/B_DATA
-    // only when the compare page is loaded via the button click.
+    
     function renderCandidateCard(candidate) {
         return `
-            <div class="lg:col-span-5 flex flex-col gap-6 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
-                <div class="flex gap-4 items-center">
-                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-20 w-20" data-alt="Portrait of Candidate" style='background-image: url("${candidate.avatar}");'></div>
-                    <div class="flex flex-col justify-center">
-                        <p class="text-white text-[22px] font-bold leading-tight tracking-[-0.015em]">${candidate.name}</p>
-                        <p class="text-[#90a4cb] text-base font-normal leading-normal">${candidate.role}</p>
+            <div class="lg:col-span-5 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
+                <div class="flex items-center gap-4 mb-6 pb-4 border-b border-white/10 dark:border-[#222f49]">
+                    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14 border-2 border-primary" style='background-image: url("${candidate.avatar}");'></div>
+                    <div>
+                        <h3 class="text-white text-xl font-bold">${candidate.name}</h3>
+                        <p class="text-[#90a4cb]">${candidate.title}</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-3">
-                    <div class="flex gap-6 justify-between items-center">
-                        <p class="text-white text-base font-medium leading-normal">Efficiency Score</p>
-                        <p class="text-white text-lg font-bold leading-normal">${candidate.score}%</p>
+
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <p class="text-[#90a4cb] text-sm">Match Score</p>
+                        <p class="text-3xl font-black ${candidate.match > 80 ? 'text-green-400' : 'text-orange-400'}">${candidate.match}%</p>
                     </div>
-                    <div class="rounded-full bg-[#314368]">
-                        <div class="h-2.5 rounded-full bg-primary" style="width: ${candidate.score}%;"></div>
-                    </div>
-                    <p class="text-[#90a4cb] text-sm font-normal leading-normal">Formula: (Matched / Required) × 100</p>
-                </div>
-                <div>
-                    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] text-left pb-2 pt-4">Matched Skills</h2>
-                    <div class="flex flex-wrap gap-2">
-                        ${candidate.matchedSkills.map(s => getSkillTag(s, false)).join('')}
+                    <div>
+                        <p class="text-[#90a4cb] text-sm">Relevant Experience</p>
+                        <p class="text-xl font-bold text-white">${candidate.experience}</p>
                     </div>
                 </div>
-                <div>
-                    <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] text-left pb-2 pt-4">Missing Skills</h2>
-                    <div class="flex flex-wrap gap-2">
-                        ${candidate.missingSkills.map(s => getSkillTag(s, true)).join('')}
-                    </div>
+
+                <h4 class="text-white font-bold mb-3">Key Skills</h4>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    ${candidate.skills.map(s => getSkillTag(s, false)).join('')}
+                </div>
+
+                <h4 class="text-white font-bold mb-3">Missing/Weak Skills</h4>
+                <div class="flex flex-wrap gap-2">
+                    ${candidate.missingSkills.map(s => getSkillTag(s, true)).join('')}
                 </div>
             </div>
         `;
     }
+
     function renderComparePage() {
-        // Only render the heading and description. The actual content
-        // (Candidate Cards, AI Recommendation, etc.) will be dynamically generated
-        // in a real application once the data processing is complete.
-        // For the purpose of this task, we will show the simulated result
-        // only when coming from the 'home' page after uploading files.
-       
         let comparisonContent;
         if (jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded) {
-             // Simulate the result being available
-             const swapButton = `
+            const swapButton = `
                 <div class="lg:col-span-2 flex justify-center items-center">
                     <button class="flex items-center justify-center w-14 h-14 rounded-full bg-[#222f49] text-white hover:bg-primary/20 hover:text-primary transition-colors">
                         <span class="material-symbols-outlined text-3xl">swap_horiz</span>
                     </button>
                 </div>
             `;
+
             const summaryAndSuggestions = `
                 <div class="lg:col-span-12 mt-8 flex flex-col lg:flex-row gap-8">
                     <div class="flex-1 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
                         <h2 class="text-white text-lg font-bold leading-tight tracking-[-0.015em] mb-4">AI Recommendation</h2>
                         <div class="flex items-start gap-4 p-4 rounded-lg bg-primary/10 border border-primary/30">
                             <span class="material-symbols-outlined text-primary text-2xl mt-1">recommend</span>
-                            <p class="text-gray-300"><strong class="font-bold text-white">Liam Carter is the stronger fit</strong> due to superior experience in modern frontend frameworks like Next.js and a stronger alignment with core job requirements, yielding a higher efficiency score.</p>
+                            <p class="text-gray-300"><strong class="font-bold text-white">${CANDIDATE_A_DATA.name} is the stronger fit</strong> due to superior experience in modern frontend frameworks like Next.js and a stronger alignment with core job requirements, yielding a higher efficiency score.</p>
                         </div>
                     </div>
                     <div class="flex-1 p-6 bg-white/5 dark:bg-[#1A2233] rounded-xl border border-white/10 dark:border-[#222f49]">
@@ -396,7 +403,7 @@
                         <ul class="space-y-3">
                             <li class="flex items-start gap-3">
                                 <span class="material-symbols-outlined text-gray-400 mt-1">arrow_right_alt</span>
-                                <p class="text-[#90a4cb]">Consider comparing <strong class="text-white">Olivia Chen</strong> with a candidate for a mid-level backend role due to her GraphQL and Node.js skills.</p>
+                                <p class="text-[#90a4cb]">Consider comparing <strong class="text-white">${CANDIDATE_B_DATA.name}</strong> with a candidate for a mid-level backend role due to her GraphQL and Node.js skills.</p>
                             </li>
                             <li class="flex items-start gap-3">
                                 <span class="material-symbols-outlined text-gray-400 mt-1">arrow_right_alt</span>
@@ -406,6 +413,7 @@
                     </div>
                 </div>
             `;
+
             const recentDecisions = `
                 <div class="mt-16 w-full">
                     <h2 class="text-white text-2xl font-bold leading-tight tracking-[-0.015em] p-4">Recent AI Decisions</h2>
@@ -424,6 +432,7 @@
                     </div>
                 </div>
             `;
+
             comparisonContent = `
                 <div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full px-4 sm:px-10 md:px-20 lg:px-0">
                     ${renderCandidateCard(CANDIDATE_A_DATA)}
@@ -433,8 +442,8 @@
                 </div>
                 ${recentDecisions}
             `;
+
         } else {
-            // Show a message if data hasn't been uploaded yet (e.g., accessed via nav link directly)
             comparisonContent = `
                 <div class="w-full text-center mt-20">
                     <span class="material-symbols-outlined text-6xl text-primary/50 mb-4">folder_open</span>
@@ -443,6 +452,7 @@
                 </div>
             `;
         }
+
         return `
             <div class="w-full flex flex-wrap justify-between gap-3 p-4">
                 <div class="flex min-w-72 flex-col gap-3">
@@ -453,197 +463,318 @@
             ${comparisonContent}
         `;
     }
+
     function renderCandidatesPage() {
-        const candidateList = CANDIDATES_DATA.map(candidate => `
-            <div class="flex flex-col gap-4 rounded-xl p-4 glassmorphism hover:ring-2 hover:ring-primary/50 transition-all duration-300">
-                <div class="flex items-center gap-4 justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-14 w-14" data-alt="Avatar of ${candidate.name}" style='background-image: url("${candidate.avatar}");'></div>
-                        <div class="flex flex-col justify-center">
-                            <p class="text-white text-base font-medium leading-normal line-clamp-1">${candidate.name}</p>
-                            <p class="text-[#90a4cb] text-sm font-normal leading-normal line-clamp-2">${candidate.role}</p>
-                        </div>
-                    </div>
-                    <div class="shrink-0">
-                        <button class="text-white/70 hover:text-white flex size-8 items-center justify-center rounded-full hover:bg-white/10 transition-colors">
-                            <span class="material-symbols-outlined text-[24px]">more_vert</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex gap-2 flex-wrap">
-                    ${candidate.skills.map(s => `
-                        <div class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-full bg-[#222f49] pl-3 pr-3">
-                            <p class="text-white text-sm font-medium leading-normal">${s}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-        `).join('');
         return `
-            <div class="w-full flex flex-wrap justify-between gap-3 p-4 max-w-[960px] mx-auto">
-                <div class="flex min-w-72 flex-col gap-3">
-                    <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Candidates</p>
-                    <p class="text-[#90a4cb] text-base font-normal leading-normal">Browse candidates and their primary roles.</p>
+            <div class="w-full text-center mt-20">
+                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Candidates</p>
+                <p class="text-[#90a4cb] text-base font-normal leading-normal mt-2">Manage and review all submitted candidate profiles.</p>
+                <div class="mt-8 p-6 bg-[#1A2233] rounded-xl border border-[#222f49]">
+                    <p class="text-white/80">Candidates list content will go here.</p>
                 </div>
-            </div>
-            <div class="flex flex-col gap-4 mt-6 w-full max-w-[960px] mx-auto p-4">
-                ${candidateList}
             </div>
         `;
     }
-    function renderHomePage() {
+
+    function renderDashboardPage() {
         return `
-            <div class="flex flex-wrap justify-between gap-3 p-4 text-center w-full max-w-4xl">
-                <div class="flex w-full flex-col gap-3">
-                    <h1 class="text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Compare Candidates</h1>
-                    <p class="text-[#90a4cb] text-base font-normal leading-normal max-w-2xl mx-auto">Upload a job description and two candidate profiles to see who is the better fit for the role.</p>
+            <div class="w-full text-center mt-20">
+                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Compare Candidates</p>
+                <p class="text-[#90a4cb] text-base font-normal leading-normal mt-2">Upload a job description and two candidate profiles to see who is the better fit for the role.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 w-full max-w-4xl">
+                <div id="upload-job" class="glassmorphism flex flex-col items-center p-6 border-dashed border-2 border-[#314368] rounded-xl min-h-64 transition-all duration-300">
+                    <span class="material-symbols-outlined text-primary text-5xl mt-4">description</span>
+                    <h3 class="text-white text-lg font-bold mt-4 line-clamp-1" id="job-file-name">Job Description</h3>
+                    <p class="text-[#90a4cb] text-sm mt-1 mb-6">Drag & Drop or Paste Text</p>
+                    <input type="file" id="job-file-input" class="hidden" accept=".txt,.pdf,.doc,.docx">
+                    <button class="flex items-center gap-2 px-6 py-3 bg-[#222f49] text-white/80 hover:bg-primary/80 transition-colors rounded-lg">
+                        <span class="material-symbols-outlined">upload_file</span>
+                        <span id="job-button-text">Upload File</span>
+                    </button>
+                </div>
+
+                <div id="upload-candidate-a" class="glassmorphism flex flex-col items-center p-6 border-dashed border-2 border-[#314368] rounded-xl min-h-64 transition-all duration-300">
+                    <span class="material-symbols-outlined text-primary text-5xl mt-4">person</span>
+                    <h3 class="text-white text-lg font-bold mt-4 line-clamp-1" id="candidate-a-file-name">Candidate A Profile</h3>
+                    <p class="text-[#90a4cb] text-sm mt-1 mb-6">Drag & Drop or Paste Text</p>
+                    <input type="file" id="candidate-a-file-input" class="hidden" accept=".txt,.pdf,.doc,.docx">
+                    <button class="flex items-center gap-2 px-6 py-3 bg-[#222f49] text-white/80 hover:bg-primary/80 transition-colors rounded-lg">
+                        <span class="material-symbols-outlined">upload_file</span>
+                        <span id="candidate-a-button-text">Upload File</span>
+                    </button>
+                </div>
+
+                <div id="upload-candidate-b" class="glassmorphism flex flex-col items-center p-6 border-dashed border-2 border-[#314368] rounded-xl min-h-64 transition-all duration-300">
+                    <span class="material-symbols-outlined text-primary text-5xl mt-4">person</span>
+                    <h3 class="text-white text-lg font-bold mt-4 line-clamp-1" id="candidate-b-file-name">Candidate B Profile</h3>
+                    <p class="text-[#90a4cb] text-sm mt-1 mb-6">Drag & Drop or Paste Text</p>
+                    <input type="file" id="candidate-b-file-input" class="hidden" accept=".txt,.pdf,.doc,.docx">
+                    <button class="flex items-center gap-2 px-6 py-3 bg-[#222f49] text-white/80 hover:bg-primary/80 transition-colors rounded-lg">
+                        <span class="material-symbols-outlined">upload_file</span>
+                        <span id="candidate-b-button-text">Upload File</span>
+                    </button>
                 </div>
             </div>
-            <div class="w-full mt-10 grid grid-cols-1 lg:grid-cols-3 gap-8 px-4">
-                <div class="flex flex-col p-4" id="upload-job-container">
-                    <div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-[#314368] hover:border-primary transition-colors px-6 py-14 h-full glassmorphism">
-                        <span class="material-symbols-outlined text-4xl text-primary">description</span>
-                        <div class="flex max-w-[480px] flex-col items-center gap-2">
-                            <p class="text-white text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center" id="job-name">Job Description</p>
-                            <p class="text-[#90a4cb] text-sm font-normal leading-normal max-w-[480px] text-center">Drag & Drop or Paste Text</p>
-                        </div>
-                        <input type="file" id="job-input" accept=".pdf,.doc,.docx,.txt" class="hidden">
-                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#222f49] hover:bg-primary/50 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
-                            <span class="truncate" id="job-button-text">Upload File</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col p-4" id="upload-candidate-a-container">
-                    <div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-[#314368] hover:border-primary transition-colors px-6 py-14 h-full glassmorphism">
-                        <span class="material-symbols-outlined text-4xl text-primary">person</span>
-                        <div class="flex max-w-[480px] flex-col items-center gap-2">
-                            <p class="text-white text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center" id="candidate-a-name">Candidate A Profile</p>
-                            <p class="text-[#90a4cb] text-sm font-normal leading-normal max-w-[480px] text-center">Drag & Drop or Paste Text</p>
-                        </div>
-                        <input type="file" id="candidate-a-input" accept=".pdf,.doc,.docx,.txt" class="hidden">
-                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#222f49] hover:bg-primary/50 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
-                            <span class="truncate" id="candidate-a-button-text">Upload File</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="flex flex-col p-4" id="upload-candidate-b-container">
-                    <div class="flex flex-col items-center gap-6 rounded-xl border-2 border-dashed border-[#314368] hover:border-primary transition-colors px-6 py-14 h-full glassmorphism">
-                        <span class="material-symbols-outlined text-4xl text-primary">person</span>
-                        <div class="flex max-w-[480px] flex-col items-center gap-2">
-                            <p class="text-white text-lg font-bold leading-tight tracking-[-0.015em] max-w-[480px] text-center" id="candidate-b-name">Candidate B Profile</p>
-                            <p class="text-[#90a4cb] text-sm font-normal leading-normal max-w-[480px] text-center">Drag & Drop or Paste Text</p>
-                        </div>
-                        <input type="file" id="candidate-b-input" accept=".pdf,.doc,.docx,.txt" class="hidden">
-                        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-[#222f49] hover:bg-primary/50 transition-colors text-white text-sm font-bold leading-normal tracking-[0.015em]">
-                            <span class="truncate" id="candidate-b-button-text">Upload File</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-12 flex justify-center">
-                <button id="home-compare-button" class="relative group flex items-center justify-center h-14 px-10 bg-primary text-white text-lg font-bold rounded-xl overflow-hidden transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-100 focus:outline-none focus:ring-4 focus:ring-primary/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none" disabled>
-                    <span class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    <span class="absolute w-full h-full bg-primary opacity-50 blur-2xl group-hover:opacity-80 transition-opacity duration-300"></span>
-                    <span class="relative z-10">Compare Candidates</span>
-                </button>
+            
+            <button id="home-compare-button" class="mt-12 px-12 py-4 bg-primary text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" disabled>
+                Compare Candidates
+            </button>
+        `;
+    }
+    
+    function renderJobsPage() {
+        return `
+            <div class="w-full text-center mt-20">
+                <p class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">Jobs Page</p>
+                <p class="text-[#90a4cb] text-base font-normal leading-normal mt-2">Content for the Jobs page is in a separate file (jobs.html).</p>
+                <a href="jobs.html" class="mt-6 inline-block px-6 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 transition-colors">Go to Jobs Page</a>
             </div>
         `;
     }
-    function loadPage(page) {
+
+    // --- NEW PROFILE PAGE RENDER FUNCTION ---
+    function renderProfilePage(subPage) {
+        let mainContent = '';
+        let title = '';
+        let subtitle = '';
+
+        switch (subPage) {
+            case 'security':
+                title = 'Security';
+                subtitle = 'Manage your password and two-factor authentication.';
+                mainContent = `
+                    <div class="p-8 bg-[#1A2233] rounded-xl border border-[#222f49] space-y-8">
+                        <div>
+                            <h2 class="text-white text-xl font-bold mb-4">Password Settings</h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="current-password" class="block text-[#90a4cb] text-sm font-medium mb-2">Current Password</label>
+                                    <input type="password" id="current-password" class="profile-input">
+                                </div>
+                                <div>
+                                    <label for="new-password" class="block text-[#90a4cb] text-sm font-medium mb-2">New Password</label>
+                                    <input type="password" id="new-password" class="profile-input">
+                                </div>
+                            </div>
+                            <div class="flex justify-end mt-6">
+                                <button class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-primary/90 transition-colors" onclick="alert('Password updated!')">
+                                    Update Password
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-[#222f49]">
+                            <h2 class="text-white text-xl font-bold mb-4">Two-Factor Authentication (2FA)</h2>
+                            <div class="flex items-center justify-between p-4 bg-[#222f49] rounded-lg">
+                                <div>
+                                    <p class="text-white font-medium">2FA Status</p>
+                                    <p class="text-green-400 text-sm">Enabled</p>
+                                </div>
+                                <button class="px-4 py-2 bg-red-400/20 text-red-400 hover:bg-red-400/30 transition-colors rounded-lg font-medium" onclick="alert('2FA Disabled!')">
+                                    Disable
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                break;
+            case 'settings':
+                title = 'Settings';
+                subtitle = 'Configure application preferences and integrations.';
+                mainContent = `
+                    <div class="p-8 bg-[#1A2233] rounded-xl border border-[#222f49] space-y-8">
+                        <div>
+                            <h2 class="text-white text-xl font-bold mb-4">AI Preferences</h2>
+                            <div class="flex items-center justify-between p-4 bg-[#222f49] rounded-lg">
+                                <div>
+                                    <p class="text-white font-medium">Automated Decision Making</p>
+                                    <p class="text-[#90a4cb] text-sm">Allow AI to provide a clear recommendation in candidate comparison.</p>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-[#314368] peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/50 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 border-t border-[#222f49]">
+                            <h2 class="text-white text-xl font-bold mb-4">Integrations</h2>
+                            <div class="flex items-center justify-between p-4 bg-[#222f49] rounded-lg">
+                                <div>
+                                    <p class="text-white font-medium">Link to ATS (Applicant Tracking System)</p>
+                                    <p class="text-[#90a4cb] text-sm">Synchronize candidate data with your main ATS.</p>
+                                </div>
+                                <button class="px-4 py-2 bg-primary/20 text-primary hover:bg-primary/30 transition-colors rounded-lg font-medium" onclick="alert('ATS Connected!')">
+                                    Connect
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                break;
+            case 'profile':
+            default:
+                title = 'Profile';
+                subtitle = 'Manage your personal information and preferences.';
+                mainContent = `
+                    <div class="p-8 bg-[#1A2233] rounded-xl border border-[#222f49]">
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-8 pb-4 border-b border-[#222f49]">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-20 w-20" style='background-image: url("${USER_PROFILE_DATA.avatar}");'></div>
+                                <div class="flex flex-col">
+                                    <p class="text-white text-xl font-bold">${USER_PROFILE_DATA.name}</p>
+                                    <p class="text-[#90a4cb]">${USER_PROFILE_DATA.email}</p>
+                                </div>
+                            </div>
+                            <button class="mt-4 sm:mt-0 px-4 py-2 bg-[#222f49] text-white/80 hover:bg-primary/30 transition-colors rounded-lg font-medium">
+                                Upload new picture
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="full-name" class="block text-[#90a4cb] text-sm font-medium mb-2">Full Name</label>
+                                <input type="text" id="full-name" value="${USER_PROFILE_DATA.name}" class="profile-input">
+                            </div>
+                            <div>
+                                <label for="job-title" class="block text-[#90a4cb] text-sm font-medium mb-2">Job Title</label>
+                                <input type="text" id="job-title" value="${USER_PROFILE_DATA.title}" class="profile-input">
+                            </div>
+                            <div>
+                                <label for="company" class="block text-[#90a4cb] text-sm font-medium mb-2">Company</label>
+                                <input type="text" id="company" value="${USER_PROFILE_DATA.company}" class="profile-input">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-[#90a4cb] text-sm font-medium mb-2">Email Address</label>
+                                <input type="email" id="email" value="${USER_PROFILE_DATA.email}" class="profile-input" disabled>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-4 mt-8 pt-4 border-t border-[#222f49]">
+                            <button class="px-6 py-3 text-[#90a4cb] font-bold rounded-xl hover:text-white transition-colors" onclick="alert('Cancelled changes.')">
+                                Cancel
+                            </button>
+                            <button class="px-6 py-3 bg-primary text-white font-bold rounded-xl shadow-lg hover:bg-primary/90 transition-colors" onclick="alert('Changes saved for ${USER_PROFILE_DATA.name}')">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                `;
+        }
+
+        return `
+            <div class="w-full flex">
+                <div class="w-64 mr-10 hidden md:block shrink-0">
+                    <div class="p-6 bg-[#1A2233] rounded-xl border border-[#222f49] flex flex-col items-center mb-8">
+                        <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-16 w-16 mb-3" style='background-image: url("${USER_PROFILE_DATA.avatar}");'></div>
+                        <p class="text-white text-lg font-bold">${USER_PROFILE_DATA.name}</p>
+                        <p class="text-[#90a4cb] text-sm">${USER_PROFILE_DATA.title}</p>
+                    </div>
+                    
+                    <nav class="space-y-1">
+                        <a href="#profile" data-page="profile" class="profile-nav-link flex items-center gap-3 p-3 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">person</span>
+                            Profile
+                        </a>
+                        <a href="#security" data-page="security" class="profile-nav-link flex items-center gap-3 p-3 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">lock</span>
+                            Security
+                        </a>
+                        <a href="#settings" data-page="settings" class="profile-nav-link flex items-center gap-3 p-3 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined">settings</span>
+                            Settings
+                        </a>
+                    </nav>
+                    
+                    <div class="mt-16 pt-4 border-t border-[#222f49]">
+                        <button class="flex items-center gap-3 p-3 rounded-lg text-red-400 hover:bg-red-400/20 w-full font-medium transition-colors" onclick="alert('Logging out...')">
+                            <span class="material-symbols-outlined">logout</span>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em]">${title}</h1>
+                    <p class="text-[#90a4cb] text-lg font-normal leading-normal mt-2 mb-8">${subtitle}</p>
+                    ${mainContent}
+                </div>
+            </div>
+        `;
+    }
+
+    // ---------------------------------------------------
+    // Routing Logic
+    // ---------------------------------------------------
+
+    function handleRouting() {
+        const hash = window.location.hash.replace('#', '');
+        const page = hash.split('?')[0] || 'dashboard'; // Default to dashboard if no hash is present, ignoring query params
         const mainContent = document.getElementById('app-main-content');
         const askAiButton = document.getElementById('ask-ai-button');
+        let pageContent = '';
+
+        if (askAiButton) askAiButton.classList.add('hidden');
+
+        // Render header buttons for the current page
         renderHeaderButtons(page);
-       
-        mainContent.innerHTML = '';
+        // Set active link in the header and profile sidebar
         setActiveLink(page);
-       
-        // --- Page Routing ---
-        if (page === 'compare') {
-            mainContent.innerHTML = renderComparePage();
-            // Show Ask AI button only if comparison results are available (simulated)
-            if (jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded) {
-                askAiButton.classList.remove('hidden');
-            } else {
-                askAiButton.classList.add('hidden');
-            }
-        } else if (page === 'candidates') {
-            mainContent.innerHTML = renderCandidatesPage();
-            askAiButton.classList.add('hidden');
-        } else {
-            // Default to Home/Dashboard page
-            mainContent.innerHTML = renderHomePage();
-            askAiButton.classList.add('hidden');
-            // Setup Upload (Button and Drag & Drop) Listeners
-            // 1. Job Description
-            setupUploadListener('upload-job-container', 'job-input', 'job-name', 'job-button-text', 'job');
-            setupDragAndDropListener('upload-job-container', 'job-input', 'job-name', 'job-button-text', 'job');
-            // 2. Candidate A
-            setupUploadListener('upload-candidate-a-container', 'candidate-a-input', 'candidate-a-name', 'candidate-a-button-text', 'candidateA');
-            setupDragAndDropListener('upload-candidate-a-container', 'candidate-a-input', 'candidate-a-name', 'candidate-a-button-text', 'candidateA');
-            // 3. Candidate B
-            setupUploadListener('upload-candidate-b-container', 'candidate-b-input', 'candidate-b-name', 'candidate-b-button-text', 'candidateB');
-            setupDragAndDropListener('upload-candidate-b-container', 'candidate-b-input', 'candidate-b-name', 'candidate-b-button-text', 'candidateB');
-           
-            // Check state on load (for persistence across navigation, though we don't persist files)
-            updateCompareButtonState();
-            document.getElementById('home-compare-button').addEventListener('click', (e) => {
-                if (e.target.disabled) {
-                    alert('Please upload all three files (Job Description, Candidate A, and Candidate B) before comparing.');
-                    return;
+        
+        // Clear previous content to allow re-rendering listeners
+        mainContent.innerHTML = '';
+
+
+        switch (page) {
+            case 'dashboard':
+            case 'home':
+                pageContent = renderDashboardPage();
+                // We use setTimeout to ensure content is in DOM before attaching listeners
+                setTimeout(() => {
+                    setupDragAndDropListener('upload-job', 'job-file-input', 'job-file-name', 'job-button-text', 'job');
+                    setupUploadListener('upload-job', 'job-file-input', 'job-file-name', 'job-button-text', 'job');
+                    setupDragAndDropListener('upload-candidate-a', 'candidate-a-file-input', 'candidate-a-file-name', 'candidate-a-button-text', 'candidateA');
+                    setupUploadListener('upload-candidate-a', 'candidate-a-file-input', 'candidate-a-file-name', 'candidate-a-button-text', 'candidateA');
+                    setupDragAndDropListener('upload-candidate-b', 'candidate-b-file-input', 'candidate-b-file-name', 'candidate-b-button-text', 'candidateB');
+                    setupUploadListener('upload-candidate-b', 'candidate-b-file-input', 'candidate-b-file-name', 'candidate-b-button-text', 'candidateB');
+                    document.getElementById('home-compare-button')?.addEventListener('click', () => {
+                        window.location.hash = '#compare';
+                    });
+                    updateCompareButtonState();
+                }, 0);
+                break;
+            case 'compare':
+                pageContent = renderComparePage();
+                if (jobFileUploaded && candidateAFileUploaded && candidateBFileUploaded && askAiButton) {
+                    askAiButton.classList.remove('hidden');
                 }
-                window.location.hash = '#compare';
-                loadPage('compare');
-            });
+                break;
+            case 'candidates':
+                pageContent = renderCandidatesPage();
+                break;
+            case 'jobs':
+                // Note: The main 'Jobs' page content is still external (jobs.html)
+                pageContent = renderJobsPage();
+                break;
+            case 'profile':
+            case 'security':
+            case 'settings':
+                // All profile-related pages are handled by the new renderProfilePage function
+                pageContent = renderProfilePage(page);
+                break;
+            default:
+                pageContent = renderDashboardPage();
+                break;
         }
+
+        // Insert the content into the main container
+        mainContent.innerHTML = pageContent;
     }
-    // ---------------------------------------------------
-    // Initial Load and Routing
-    // ---------------------------------------------------
-    function handleHashChange() {
-        const hash = window.location.hash.replace('#', '');
-        const page = hash === 'dashboard' ? 'home' : hash || 'home';
-        const pageMap = {
-            'compare': 'compare',
-            'dashboard': 'home', // Map dashboard to home for content loading
-            'jobs': 'jobs',
-            'candidates': 'candidates',
-            'home': 'home'
-        };
-       
-        const currentPage = pageMap[page] || 'home';
-        loadPage(currentPage);
-    }
-    // Listen for hash changes (back/forward buttons)
-    window.addEventListener('hashchange', handleHashChange);
-    // Initial page load
-    document.addEventListener('DOMContentLoaded', () => {
-        // Attach event listeners to nav links
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const page = e.target.dataset.page;
-                window.location.hash = '#' + page;
-                loadPage(page);
-            });
-        });
-        // Load the initial page based on the URL hash
-        handleHashChange();
-    });
-</script>
-<!-- ✅ Botpress Loader -->
-<script src="https://cdn.botpress.cloud/webchat/v3.3/inject.js" defer></script>
-<!-- ✅ YOUR Bot's unique config file -->
-<script src="https://files.bpcontent.cloud/2025/11/11/05/20251111050727-H32176KB.js" defer></script>
-<!-- ✅ Ask AI Button → Open Chatbot -->
-<script>
-setTimeout(() => {
-    const askBtn = document.getElementById("ask-ai-button");
-    if (askBtn) {
-        askBtn.addEventListener("click", () => {
-            window.botpressWebChat.sendEvent({ type: "show" });
-        });
-    }
-}, 1200); // wait for botpress to load fully
+    
+    // Initial routing setup
+    window.addEventListener('hashchange', handleRouting);
+    window.addEventListener('load', handleRouting);
 </script>
 </body>
 </html>
